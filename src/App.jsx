@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Check, Eye, ImagePlus, LayoutTemplate, Monitor, Pencil, Save, Smartphone, Tablet, Type, Undo2, Upload, X } from "lucide-react";
 
 const initial = {
-  brand: "Marijana AI Digital Soul",
+  brand: "Marijana Digital Soul",
   eyebrow: "DIGITALNI ALATI · JEDNOSTAVNI SISTEMI",
-  headline: "Izgradi svoj digitalni svet",
+  headline: "Tvoja ideja, tvoj glas, tvoj sistem",
   description: "Mesto za digitalne proizvode, pametne alate i sisteme koji ti pomažu da organizuješ ideje i razvijaš online posao",
   button: "Istraži biblioteku",
   image: ""
@@ -83,8 +83,8 @@ export default function App() {
       <main className="canvas-area">
         <div className="canvas-toolbar"><div className="breadcrumb"><span>Moji sajtovi</span><span>/</span><strong>Početna stranica</strong><span className="draft-tag">NACRT</span></div><div className="device-switch"><button className={device === "desktop" ? "active" : ""} onClick={() => setDevice("desktop")} title="Računar"><Monitor size={16}/></button><button className={device === "tablet" ? "active" : ""} onClick={() => setDevice("tablet")} title="Tablet"><Tablet size={16}/></button><button className={device === "mobile" ? "active" : ""} onClick={() => setDevice("mobile")} title="Telefon"><Smartphone size={16}/></button></div><button className="preview-button" onClick={() => setEditing(!editing)}>{editing ? <><Eye size={15}/> Pregled</> : <><Pencil size={15}/> Nastavi uređivanje</>}</button></div>
         <div className="preview-stage"><div className={`website-preview ${device} ${editing ? "editing" : "preview-only"}`}>
-          <nav className="site-nav"><div className="site-brand">{content.brand}</div><div className="nav-links"><span>Počni ovde</span><span>Biblioteka rešenja</span><span>Blog</span><span>O meni</span></div><button className="nav-cta">Počni ovde <ArrowUpRight size={14}/></button></nav>
-          <section className="hero"><div className="hero-copy">{editable("eyebrow","eyebrow",content.eyebrow)}{editable("headline","hero-title",content.headline)}{editable("description","hero-description",content.description)}<button className={`hero-cta editable ${selected === "button" && editing ? "chosen" : ""}`} onClick={() => select("button")}>{selected === "button" && editing && <span className="selection-label">DUGME</span>}{content.button}<ArrowUpRight size={16}/></button><div className="hero-caption"><span className="caption-line"/> PROSTOR ZA IDEJE. SISTEM ZA RAST.</div></div>
+          <nav className="site-nav"><div className="site-brand">{content.brand}</div><div className="nav-links"><span>Počni ovde</span><span>AI alati</span><span>Radni alati</span><span>Biblioteka rešenja</span><span>Svi proizvodi</span><span>Sistem</span><span>Blog</span><span>O meni</span><span>1 na 1</span><span>Česta pitanja</span></div></nav>
+          <section className="hero"><div className="hero-copy">{editable("eyebrow","eyebrow",content.eyebrow)}{editable("headline","hero-title",content.headline.split(/(glas)/i).map((part, i) => part.toLowerCase() === "glas" ? <em key={i} className="feminine-word">{part}</em> : part))}{editable("description","hero-description",content.description)}<button className={`hero-cta editable ${selected === "button" && editing ? "chosen" : ""}`} onClick={() => select("button")}>{selected === "button" && editing && <span className="selection-label">DUGME</span>}{content.button}<ArrowUpRight size={16}/></button><div className="hero-caption"><span className="caption-line"/> PROSTOR ZA IDEJE. SISTEM ZA RAST.</div></div>
           <div className={`hero-image editable ${selected === "image" && editing ? "chosen" : ""}`} onClick={() => { if (editing) { setSelected("image"); uploadRef.current?.click(); } }}>{content.image ? <img src={content.image} alt="Izabrana fotografija za pregled"/> : <div className="image-placeholder"><div className="image-placeholder-icon"><ImagePlus size={25}/></div><strong>Umetni svoju fotografiju</strong><span>Klikni ovde da izabereš sliku</span></div>}{selected === "image" && editing && <span className="selection-label image-label">FOTOGRAFIJA · KLIKNI DA ZAMENIŠ</span>}</div></section>
           <section className="below-fold"><span className="below-kicker">JEDNO MESTO · VIŠE MOGUĆNOSTI</span><h2>Od ideje do sistema koji radi za tebe</h2><p>Ovo je primer rasporeda. Kasnije ćemo povezati stvarne sekcije postojećeg sajta</p></section>
         </div></div>
