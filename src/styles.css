@@ -100,3 +100,17 @@
 .free-content-copy>button{margin-top:auto;border:1px solid #d5c8b5;border-radius:999px;background:#f5eee4;color:#6e7f64;padding:8px 12px;font-size:10px;cursor:pointer}
 @media(max-width:980px){.free-content-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.free-content-card:nth-child(2){border-right:0}.free-content-card:nth-child(-n+2){border-bottom:1px solid #e0d7c9}}
 @media(max-width:600px){.free-content-section{padding:42px 16px 50px}.free-content-grid{grid-template-columns:1fr}.free-content-card{border-right:0;border-bottom:1px solid #e0d7c9}.free-content-card:last-child{border-bottom:0}.free-content-image{aspect-ratio:1.7/1}.free-content-copy{padding:20px}.free-content-heading h2{font-size:34px}}
+
+
+/* Blog section between Library and Free Content */
+.blog-section{padding:clamp(44px,6vw,78px) clamp(20px,5.5vw,76px);background:#f2ece3;border-top:1px solid #e5ddd1;border-bottom:1px solid #e5ddd1;color:#30243b}
+.blog-section-heading{max-width:760px;margin:0 auto 30px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+.blog-section-heading h2{margin:0;font-family:"Playfair Display",Georgia,serif;font-size:clamp(38px,5vw,60px);font-weight:500;line-height:1.05}
+.blog-section-heading p{margin:0;font-size:14px;line-height:1.7;color:#766e62}
+.blog-editor-placeholder{max-width:980px;margin:0 auto;display:grid;grid-template-columns:.85fr 1.15fr;min-height:250px;border:1px solid #e1d6c7;border-radius:16px;overflow:hidden;background:#faf6ef}
+.blog-placeholder-art{display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#fff9eb 0%,#e8ddcb 70%,#d8c9b4 100%);min-height:220px}
+.blog-placeholder-art span{font-family:Georgia,serif;font-size:90px;font-style:italic;color:#849276;transform:rotate(-12deg)}
+.blog-placeholder-copy{padding:clamp(24px,4vw,42px);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:13px}
+.blog-placeholder-copy h3{font-family:"Playfair Display",Georgia,serif;font-size:clamp(25px,3vw,36px);font-weight:500;line-height:1.15;margin:0}
+.blog-placeholder-copy p{font-size:13px;line-height:1.75;color:#766e62;margin:0;max-width:520px}
+@media(max-width:650px){.blog-section{padding:42px 16px}.blog-editor-placeholder{grid-template-columns:1fr}.blog-placeholder-art{min-height:160px}.blog-placeholder-art span{font-size:68px}.blog-placeholder-copy{padding:24px}}
