@@ -8,7 +8,10 @@ const initial = {
   topQuote: "",
   marketingMockup: "",
   driveMockup: "",
-  eyebrow: "DIGITALNI ALATI · JEDNOSTAVNI SISTEMI",
+  freeGuideImage: "",
+  freeTemplateImage: "",
+  freeChecklistImage: "",
+  freeAIImage: "",  eyebrow: "DIGITALNI ALATI · JEDNOSTAVNI SISTEMI",
   headline: "Tvoja ideja, tvoj glas, tvoj sistem",
   description: "Mesto za digitalne proizvode, pametne alate i sisteme koji ti pomažu da organizuješ ideje i razvijaš online posao",
   button: "Istraži biblioteku",
@@ -62,6 +65,10 @@ export default function App() {
   const uploadRef = useRef(null);
   const marketingUploadRef = useRef(null);
   const driveUploadRef = useRef(null);
+  const freeGuideRef = useRef(null);
+  const freeTemplateRef = useRef(null);
+  const freeChecklistRef = useRef(null);
+  const freeAIRef = useRef(null);
 
   useEffect(() => {
     let active = true;
@@ -162,30 +169,6 @@ export default function App() {
               </div>
             </div>
           </section>
-          <section className="library-section">
-            <div className="library-hero">
-              <div className="library-hero-copy">
-                <span className="library-kicker">TVOJ PROSTOR ZA RAZVOJ I STVARANJE</span>
-                {editable("topTitle","intro-title",content.topTitle || "Biblioteka rešenja")}
-                {editable("topSubtitle","intro-subtitle",content.topSubtitle || "Dodaj podnaslov")}
-                {editable("topQuote","intro-quote",content.topQuote || "Ovde ćeš dodati svoj citat")}
-              </div>
-              <div className="library-hero-art" aria-hidden="true">
-                <div className="library-art-glow"></div><div className="library-art-plant">✿</div>
-                <div className="library-art-books"><span></span><span></span><span></span></div>
-                <div className="library-art-laptop"><div className="library-art-screen"><span className="library-art-logo">✧</span><span>Marijana<br/>Digital Soul</span></div><div className="library-art-base"></div></div>
-                <div className="library-art-mug">✧</div>
-              </div>
-            </div>
-            <div className="library-grid">
-              <article className="library-card library-women"><div className="library-card-art"><span className="library-art-symbol">✿</span><span className="library-art-label">lični razvoj · ravnoteža</span></div><div className="library-card-copy"><span className="library-number">01</span><h2>Ženski programi</h2><p>Alati, vodiči i sadržaji za svakodnevni život, lični razvoj i više ravnoteže.</p><button type="button">Istraži programe <ArrowUpRight size={15}/></button></div></article>
-              <article className="library-card library-teen"><div className="library-card-art"><span className="library-art-symbol">✧</span><span className="library-art-label">učenje · kreativnost</span></div><div className="library-card-copy"><span className="library-number">02</span><h2>Tinejdžerski i dečji programi</h2><p>Materijali i programi prilagođeni mladima i njihovim potrebama.</p><button type="button">Pogledaj sadržaje <ArrowUpRight size={15}/></button></div></article>
-              <article className="library-card library-templates"><div className="library-card-art"><span className="library-art-symbol">▤</span><span className="library-art-label">planeri · radni listovi</span></div><div className="library-card-copy"><span className="library-number">03</span><h2>Gotovi šabloni</h2><p>Praktični šabloni, planeri i radni listovi koje možeš odmah preuzeti i koristiti.</p><button type="button">Pogledaj šablone <ArrowUpRight size={15}/></button></div></article>
-              <article className="library-card library-products"><div className="library-card-art"><span className="library-art-symbol">✧</span><span className="library-art-label">e-knjige · vodiči · paketi</span></div><div className="library-card-copy"><span className="library-number">04</span><h2>Digitalni proizvodi</h2><p>E-knjige, vodiči, paketi i druga digitalna rešenja za lični i poslovni razvoj.</p><button type="button">Otkrij proizvode <ArrowUpRight size={15}/></button></div></article>
-              <article className="library-card library-marketing"><div className="library-card-art"><span className="library-art-symbol">↗</span><span className="library-art-label">marketing · sistemi · alati</span></div><div className="library-card-copy"><span className="library-number">05</span><h2>Marketing programi</h2><p>Praktični sistemi, alati i strategije za organizovan marketing i prodaju digitalnih proizvoda.</p><button type="button">Pogledaj programe <ArrowUpRight size={15}/></button></div></article>
-              <article className="library-card library-partners"><div className="library-card-art"><span className="library-art-symbol">∞</span><span className="library-art-label">saradnja · mogućnosti</span></div><div className="library-card-copy"><span className="library-number">06</span><h2>Partnerski programi</h2><p>Resursi i mogućnosti za partnersku saradnju.</p><button type="button">Saznaj više <ArrowUpRight size={15}/></button></div></article>
-            </div>
-          </section>
           <section className="mockup-cards">
             <article className="mockup-card marketing-card">
               <div className="mockup-image-area">
@@ -214,6 +197,40 @@ export default function App() {
               </div>
             </article>
           </section>
+                    <section className="library-section">
+            <div className="library-hero">
+              <div className="library-hero-copy">
+                <span className="library-kicker">TVOJ PROSTOR ZA RAZVOJ I STVARANJE</span>
+                {editable("topTitle","intro-title",content.topTitle || "Biblioteka rešenja")}
+                {editable("topSubtitle","intro-subtitle",content.topSubtitle || "Dodaj podnaslov")}
+                {editable("topQuote","intro-quote",content.topQuote || "Ovde ćeš dodati svoj citat")}
+              </div>
+              <div className="library-hero-art" aria-hidden="true">
+                <div className="library-art-glow"></div><div className="library-art-plant">✿</div>
+                <div className="library-art-books"><span></span><span></span><span></span></div>
+                <div className="library-art-laptop"><div className="library-art-screen"><span className="library-art-logo">✧</span><span>Marijana<br/>Digital Soul</span></div><div className="library-art-base"></div></div>
+                <div className="library-art-mug">✧</div>
+              </div>
+            </div>
+            <div className="library-grid">
+              <article className="library-card library-women"><div className="library-card-art"><span className="library-art-symbol">✿</span><span className="library-art-label">lični razvoj · ravnoteža</span></div><div className="library-card-copy"><span className="library-number">01</span><h2>Ženski programi</h2><p>Alati, vodiči i sadržaji za svakodnevni život, lični razvoj i više ravnoteže.</p><button type="button">Istraži programe <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-teen"><div className="library-card-art"><span className="library-art-symbol">✧</span><span className="library-art-label">učenje · kreativnost</span></div><div className="library-card-copy"><span className="library-number">02</span><h2>Tinejdžerski i dečji programi</h2><p>Materijali i programi prilagođeni mladima i njihovim potrebama.</p><button type="button">Pogledaj sadržaje <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-templates"><div className="library-card-art"><span className="library-art-symbol">▤</span><span className="library-art-label">planeri · radni listovi</span></div><div className="library-card-copy"><span className="library-number">03</span><h2>Gotovi šabloni</h2><p>Praktični šabloni, planeri i radni listovi koje možeš odmah preuzeti i koristiti.</p><button type="button">Pogledaj šablone <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-products"><div className="library-card-art"><span className="library-art-symbol">✧</span><span className="library-art-label">e-knjige · vodiči · paketi</span></div><div className="library-card-copy"><span className="library-number">04</span><h2>Digitalni proizvodi</h2><p>E-knjige, vodiči, paketi i druga digitalna rešenja za lični i poslovni razvoj.</p><button type="button">Otkrij proizvode <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-marketing"><div className="library-card-art"><span className="library-art-symbol">↗</span><span className="library-art-label">marketing · sistemi · alati</span></div><div className="library-card-copy"><span className="library-number">05</span><h2>Marketing programi</h2><p>Praktični sistemi, alati i strategije za organizovan marketing i prodaju digitalnih proizvoda.</p><button type="button">Pogledaj programe <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-partners"><div className="library-card-art"><span className="library-art-symbol">∞</span><span className="library-art-label">saradnja · mogućnosti</span></div><div className="library-card-copy"><span className="library-number">06</span><h2>Partnerski programi</h2><p>Resursi i mogućnosti za partnersku saradnju.</p><button type="button">Saznaj više <ArrowUpRight size={15}/></button></div></article>
+            </div>
+          </section>
+          <section className="free-content-section">
+            <div className="free-content-heading"><span className="library-kicker">BESPLATNI SADRŽAJ</span><h2>Uzmi ono što ti može pomoći odmah</h2></div>
+            <div className="free-content-grid">
+              <article className="free-content-card"><button type="button" className="free-content-image" onClick={() => freeGuideRef.current?.click()}>{content.freeGuideImage ? <img src={content.freeGuideImage} alt="Mockup besplatnih vodiča"/> : <><ImagePlus size={25}/><strong>Dodaj sliku ili mockup</strong></>}</button><input ref={freeGuideRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e,"freeGuideImage")}/><div className="free-content-copy"><span>01</span><h3>Besplatni vodiči</h3><p>Jasne upute za konkretne probleme i zadatke</p>{content.freeGuideImage && <button type="button" onClick={() => freeGuideRef.current?.click()}>Zameni sliku</button>}</div></article>
+              <article className="free-content-card"><button type="button" className="free-content-image" onClick={() => freeTemplateRef.current?.click()}>{content.freeTemplateImage ? <img src={content.freeTemplateImage} alt="Mockup besplatnih šablona"/> : <><ImagePlus size={25}/><strong>Dodaj sliku ili mockup</strong></>}</button><input ref={freeTemplateRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e,"freeTemplateImage")}/><div className="free-content-copy"><span>02</span><h3>Besplatni šabloni</h3><p>Gotove strukture za lakši početak</p>{content.freeTemplateImage && <button type="button" onClick={() => freeTemplateRef.current?.click()}>Zameni sliku</button>}</div></article>
+              <article className="free-content-card"><button type="button" className="free-content-image" onClick={() => freeChecklistRef.current?.click()}>{content.freeChecklistImage ? <img src={content.freeChecklistImage} alt="Mockup besplatnih kontrolnih lista"/> : <><ImagePlus size={25}/><strong>Dodaj sliku ili mockup</strong></>}</button><input ref={freeChecklistRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e,"freeChecklistImage")}/><div className="free-content-copy"><span>03</span><h3>Besplatne kontrolne liste</h3><p>Koraci koje možeš pratiti bez komplikovanja</p>{content.freeChecklistImage && <button type="button" onClick={() => freeChecklistRef.current?.click()}>Zameni sliku</button>}</div></article>
+              <article className="free-content-card"><button type="button" className="free-content-image" onClick={() => freeAIRef.current?.click()}>{content.freeAIImage ? <img src={content.freeAIImage} alt="Mockup besplatnih AI materijala"/> : <><ImagePlus size={25}/><strong>Dodaj sliku ili mockup</strong></>}</button><input ref={freeAIRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e,"freeAIImage")}/><div className="free-content-copy"><span>04</span><h3>Besplatni AI materijali</h3><p>Upiti, ideje i praktični AI resursi</p>{content.freeAIImage && <button type="button" onClick={() => freeAIRef.current?.click()}>Zameni sliku</button>}</div></article>
+            </div>
+          </section>
+
         </div></div>
       </main>
       <aside className="right-panel"><div className="inspector-heading"><div><span className="panel-kicker">SVOJSTVA</span><h2>Uredi element</h2></div><Pencil size={18}/></div>
