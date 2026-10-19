@@ -138,7 +138,7 @@ export default function App() {
                 <button className="about-button" type="button">Pročitaj o meni <ArrowUpRight size={16}/></button>
               </div>
               <div className="about-photo-wrap">
-                {content.image ? <img className="about-photo" src={content.image} alt="Marijana, osnivačica Marijana Digital Soul"/> : <div className="about-photo-placeholder">Ovde ćemo postaviti crno-belu portretnu fotografiju</div>}
+                <img className="about-photo" src="/marijana-about-portrait-crop.jpg" alt="Crno-beli portret za sekciju O meni" />
               </div>
             </div>
           </section>
