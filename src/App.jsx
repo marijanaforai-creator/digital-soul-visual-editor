@@ -3,6 +3,9 @@ import { ArrowUpRight, Check, Eye, ImagePlus, LayoutTemplate, Monitor, Pencil, S
 
 const initial = {
   brand: "Marijana Digital Soul",
+  topTitle: "Marketing AI Sistem i Digital Soul Drive",
+  topSubtitle: "Pametniji marketing, povezani alati. Organizovana prodaja.",
+  topQuote: "",
   eyebrow: "DIGITALNI ALATI · JEDNOSTAVNI SISTEMI",
   headline: "Tvoja ideja, tvoj glas, tvoj sistem",
   description: "Mesto za digitalne proizvode, pametne alate i sisteme koji ti pomažu da organizuješ ideje i razvijaš online posao",
@@ -35,6 +38,9 @@ const writeStoredDraft = async (value) => {
   });
 };
 const fields = [
+  { key: "topTitle", label: "Gornji naslov" },
+  { key: "topSubtitle", label: "Gornji podnaslov" },
+  { key: "topQuote", label: "Citat (opciono)" },
   { key: "brand", label: "Naziv brenda" },
   { key: "eyebrow", label: "Mali naslov" },
   { key: "headline", label: "Glavni naslov" },
@@ -127,6 +133,11 @@ export default function App() {
         <div className="canvas-toolbar"><div className="breadcrumb"><span>Moji sajtovi</span><span>/</span><strong>Početna stranica</strong><span className="draft-tag">NACRT</span></div><div className="device-switch"><button className={device === "desktop" ? "active" : ""} onClick={() => setDevice("desktop")} title="Računar"><Monitor size={16}/></button><button className={device === "tablet" ? "active" : ""} onClick={() => setDevice("tablet")} title="Tablet"><Tablet size={16}/></button><button className={device === "mobile" ? "active" : ""} onClick={() => setDevice("mobile")} title="Telefon"><Smartphone size={16}/></button></div><button className="preview-button" onClick={() => setEditing(!editing)}>{editing ? <><Eye size={15}/> Pregled</> : <><Pencil size={15}/> Nastavi uređivanje</>}</button></div>
         <div className="preview-stage"><div className={`website-preview ${device} ${editing ? "editing" : "preview-only"}`}>
           <nav className="site-nav"><div className="site-brand">{content.brand}</div><div className="nav-links"><span>Počni ovde</span><span>AI alati</span><span>Radni alati</span><span>Biblioteka rešenja</span><span>Svi proizvodi</span><details className="nav-more"><summary>Više <span aria-hidden="true">⌄</span></summary><div className="nav-dropdown"><span>Sistem</span><span>Blog</span><span>O meni</span><span>1 na 1</span><span>Česta pitanja</span></div></details></div></nav>
+          <section className="intro-banner">
+            {editable("topTitle","intro-title",content.topTitle || "Dodaj glavni naslov")}
+            {editable("topSubtitle","intro-subtitle",content.topSubtitle || "Dodaj podnaslov")}
+            {editable("topQuote","intro-quote",content.topQuote || "Ovde možeš dodati citat (nije obavezno)")}
+          </section>
           <section className="hero"><div className="hero-copy">{editable("eyebrow","eyebrow",content.eyebrow)}{editable("headline","hero-title",content.headline.split(/(glas)/i).map((part, i) => part.toLowerCase() === "glas" ? <em key={i} className="feminine-word">{part}</em> : part))}{editable("description","hero-description",content.description)}<div className="hero-actions"><button className={`hero-cta hero-cta-primary editable ${selected === "button" && editing ? "chosen" : ""}`} onClick={() => select("button")}>{selected === "button" && editing && <span className="selection-label">DUGME 1</span>}{content.button || "Počni ovde"}<ArrowUpRight size={16}/></button><button className="hero-cta hero-cta-secondary" type="button">Blog<ArrowUpRight size={16}/></button></div><div className="hero-caption"><span className="caption-line"/> PROSTOR ZA IDEJE. SISTEM ZA RAST.</div></div>
           <div className={`hero-image editable ${selected === "image" && editing ? "chosen" : ""}`} onClick={() => { if (editing) { setSelected("image"); uploadRef.current?.click(); } }}>{content.image ? <img src={content.image} alt="Izabrana fotografija za pregled"/> : <div className="image-placeholder"><div className="image-placeholder-icon"><ImagePlus size={25}/></div><strong>Umetni svoju fotografiju</strong><span>Klikni ovde da izabereš sliku</span></div>}{selected === "image" && editing && <span className="selection-label image-label">FOTOGRAFIJA · KLIKNI DA ZAMENIŠ</span>}</div></section>
           <section className="about-section">
