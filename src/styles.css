@@ -81,3 +81,22 @@
 .library-partners .library-art-symbol{color:#846a86}
 @media(max-width:980px){.library-hero{grid-template-columns:1fr .75fr}.library-card{grid-template-columns:1fr}.library-card-art{min-height:135px}.library-card-copy{min-height:200px}}
 @media(max-width:680px){.library-section{padding:24px 14px 46px}.library-hero{grid-template-columns:1fr;gap:0;padding:28px 22px 12px}.library-hero-art{min-height:220px}.library-grid{grid-template-columns:1fr;gap:14px}.library-card{grid-template-columns:.8fr 1.2fr;min-height:220px}.library-card-art{min-height:100%}.library-card-copy{min-height:0;padding:18px}.library-card-copy h2{font-size:23px}.library-card-copy p{font-size:11px}.library-card-copy button{font-size:10px}.intro-title{font-size:clamp(36px,10vw,52px)}}
+
+
+/* Free resources section after Library of Solutions */
+.free-content-section{padding:clamp(42px,6vw,78px) clamp(20px,5.5vw,76px) 82px;background:#f8f4ed;color:#292722;border-top:1px solid #e5ddd1}
+.free-content-heading{text-align:center;max-width:900px;margin:0 auto clamp(28px,4vw,48px);display:flex;flex-direction:column;align-items:center;gap:14px}
+.free-content-heading h2{font-family:"Playfair Display",Georgia,serif;font-weight:500;font-size:clamp(30px,4.2vw,54px);line-height:1.12;letter-spacing:-.035em;color:#30243b;margin:0}
+.free-content-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid #e0d7c9;background:#faf7f1}
+.free-content-card{min-width:0;display:flex;flex-direction:column;border-right:1px solid #e0d7c9}
+.free-content-card:last-child{border-right:0}
+.free-content-image{width:100%;aspect-ratio:1.22/1;border:0;border-bottom:1px solid #e0d7c9;background:linear-gradient(135deg,#eee5d8,#f8f2e9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#839276;cursor:pointer;padding:0;overflow:hidden;font:inherit}
+.free-content-image strong{font-size:11px;font-weight:500;color:#766e62}
+.free-content-image img{width:100%;height:100%;object-fit:cover;display:block}
+.free-content-copy{padding:clamp(16px,2vw,25px);display:flex;flex-direction:column;align-items:flex-start;gap:10px;flex:1}
+.free-content-copy>span{font-size:10px;letter-spacing:.15em;color:#78866e}
+.free-content-copy h3{font-family:"Playfair Display",Georgia,serif;font-size:clamp(19px,1.8vw,25px);line-height:1.2;font-weight:500;color:#30243b;margin:0}
+.free-content-copy p{font-size:12px;line-height:1.65;color:#766e62;margin:0}
+.free-content-copy>button{margin-top:auto;border:1px solid #d5c8b5;border-radius:999px;background:#f5eee4;color:#6e7f64;padding:8px 12px;font-size:10px;cursor:pointer}
+@media(max-width:980px){.free-content-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.free-content-card:nth-child(2){border-right:0}.free-content-card:nth-child(-n+2){border-bottom:1px solid #e0d7c9}}
+@media(max-width:600px){.free-content-section{padding:42px 16px 50px}.free-content-grid{grid-template-columns:1fr}.free-content-card{border-right:0;border-bottom:1px solid #e0d7c9}.free-content-card:last-child{border-bottom:0}.free-content-image{aspect-ratio:1.7/1}.free-content-copy{padding:20px}.free-content-heading h2{font-size:34px}}
