@@ -3,8 +3,8 @@ import { ArrowUpRight, Check, Eye, ImagePlus, LayoutTemplate, Monitor, Pencil, S
 
 const initial = {
   brand: "Marijana Digital Soul",
-  topTitle: "Marketing AI Sistem i Digital Soul Drive",
-  topSubtitle: "Pametniji marketing, povezani alati. Organizovana prodaja.",
+  topTitle: "Biblioteka rešenja",
+  topSubtitle: "Digitalni proizvodi, alati i praktična rešenja za lakši, organizovaniji i ispunjeniji život.",
   topQuote: "",
   marketingMockup: "",
   driveMockup: "",
@@ -42,7 +42,7 @@ const writeStoredDraft = async (value) => {
 const fields = [
   { key: "topTitle", label: "Gornji naslov" },
   { key: "topSubtitle", label: "Gornji podnaslov" },
-  { key: "topQuote", label: "Citat (opciono)" },
+  { key: "topQuote", label: "Citat za Biblioteku rešenja (opciono)" },
   { key: "brand", label: "Naziv brenda" },
   { key: "eyebrow", label: "Mali naslov" },
   { key: "headline", label: "Glavni naslov" },
@@ -162,10 +162,29 @@ export default function App() {
               </div>
             </div>
           </section>
-          <section className="intro-banner">
-            {editable("topTitle","intro-title",content.topTitle || "Dodaj glavni naslov")}
-            {editable("topSubtitle","intro-subtitle",content.topSubtitle || "Dodaj podnaslov")}
-            {editable("topQuote","intro-quote",content.topQuote || "Ovde možeš dodati citat (nije obavezno)")}
+          <section className="library-section">
+            <div className="library-hero">
+              <div className="library-hero-copy">
+                <span className="library-kicker">TVOJ PROSTOR ZA RAZVOJ I STVARANJE</span>
+                {editable("topTitle","intro-title",content.topTitle || "Biblioteka rešenja")}
+                {editable("topSubtitle","intro-subtitle",content.topSubtitle || "Dodaj podnaslov")}
+                {editable("topQuote","intro-quote",content.topQuote || "Ovde ćeš dodati svoj citat")}
+              </div>
+              <div className="library-hero-art" aria-hidden="true">
+                <div className="library-art-glow"></div><div className="library-art-plant">✿</div>
+                <div className="library-art-books"><span></span><span></span><span></span></div>
+                <div className="library-art-laptop"><div className="library-art-screen"><span className="library-art-logo">✧</span><span>Marijana<br/>Digital Soul</span></div><div className="library-art-base"></div></div>
+                <div className="library-art-mug">✧</div>
+              </div>
+            </div>
+            <div className="library-grid">
+              <article className="library-card library-women"><div className="library-card-art"><span className="library-art-symbol">✿</span><span className="library-art-label">lični razvoj · ravnoteža</span></div><div className="library-card-copy"><span className="library-number">01</span><h2>Ženski programi</h2><p>Alati, vodiči i sadržaji za svakodnevni život, lični razvoj i više balansa.</p><button type="button">Istraži programe <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-teen"><div className="library-card-art"><span className="library-art-symbol">✧</span><span className="library-art-label">učenje · kreativnost</span></div><div className="library-card-copy"><span className="library-number">02</span><h2>Teen i dečji programi</h2><p>Materijali i programi prilagođeni mladima i njihovim potrebama.</p><button type="button">Pogledaj sadržaje <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-templates"><div className="library-card-art"><span className="library-art-symbol">▤</span><span className="library-art-label">planeri · radni listovi</span></div><div className="library-card-copy"><span className="library-number">03</span><h2>Gotovi šabloni</h2><p>Praktični šabloni, planeri i radni listovi koje možeš odmah preuzeti i koristiti.</p><button type="button">Pogledaj šablone <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-products"><div className="library-card-art"><span className="library-art-symbol">✧</span><span className="library-art-label">e-knjige · vodiči · paketi</span></div><div className="library-card-copy"><span className="library-number">04</span><h2>Digitalni proizvodi</h2><p>E-knjige, vodiči, paketi i druga digitalna rešenja za lični i poslovni razvoj.</p><button type="button">Otkrij proizvode <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-marketing"><div className="library-card-art"><span className="library-art-symbol">↗</span><span className="library-art-label">marketing · sistemi · alati</span></div><div className="library-card-copy"><span className="library-number">05</span><h2>Marketing programi</h2><p>Praktični sistemi, alati i strategije za organizovan marketing i prodaju digitalnih proizvoda.</p><button type="button">Pogledaj programe <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-partners"><div className="library-card-art"><span className="library-art-symbol">∞</span><span className="library-art-label">saradnja · mogućnosti</span></div><div className="library-card-copy"><span className="library-number">06</span><h2>Partnerski programi</h2><p>Resursi i mogućnosti za partnersku saradnju.</p><button type="button">Saznaj više <ArrowUpRight size={15}/></button></div></article>
+            </div>
           </section>
           <section className="mockup-cards">
             <article className="mockup-card marketing-card">
