@@ -129,7 +129,19 @@ export default function App() {
           <nav className="site-nav"><div className="site-brand">{content.brand}</div><div className="nav-links"><span>Počni ovde</span><span>AI alati</span><span>Radni alati</span><span>Biblioteka rešenja</span><span>Svi proizvodi</span><details className="nav-more"><summary>Više <span aria-hidden="true">⌄</span></summary><div className="nav-dropdown"><span>Sistem</span><span>Blog</span><span>O meni</span><span>1 na 1</span><span>Česta pitanja</span></div></details></div></nav>
           <section className="hero"><div className="hero-copy">{editable("eyebrow","eyebrow",content.eyebrow)}{editable("headline","hero-title",content.headline.split(/(glas)/i).map((part, i) => part.toLowerCase() === "glas" ? <em key={i} className="feminine-word">{part}</em> : part))}{editable("description","hero-description",content.description)}<div className="hero-actions"><button className={`hero-cta hero-cta-primary editable ${selected === "button" && editing ? "chosen" : ""}`} onClick={() => select("button")}>{selected === "button" && editing && <span className="selection-label">DUGME 1</span>}{content.button || "Počni ovde"}<ArrowUpRight size={16}/></button><button className="hero-cta hero-cta-secondary" type="button">Blog<ArrowUpRight size={16}/></button></div><div className="hero-caption"><span className="caption-line"/> PROSTOR ZA IDEJE. SISTEM ZA RAST.</div></div>
           <div className={`hero-image editable ${selected === "image" && editing ? "chosen" : ""}`} onClick={() => { if (editing) { setSelected("image"); uploadRef.current?.click(); } }}>{content.image ? <img src={content.image} alt="Izabrana fotografija za pregled"/> : <div className="image-placeholder"><div className="image-placeholder-icon"><ImagePlus size={25}/></div><strong>Umetni svoju fotografiju</strong><span>Klikni ovde da izabereš sliku</span></div>}{selected === "image" && editing && <span className="selection-label image-label">FOTOGRAFIJA · KLIKNI DA ZAMENIŠ</span>}</div></section>
-          <section className="below-fold"><span className="below-kicker">JEDNO MESTO · VIŠE MOGUĆNOSTI</span><h2>Od ideje do sistema koji radi za tebe</h2><p>Ovo je primer rasporeda. Kasnije ćemo povezati stvarne sekcije postojećeg sajta</p></section>
+          <section className="about-section">
+            <div className="about-inner">
+              <div className="about-copy">
+                <span className="about-eyebrow">ZDRAVO, JA SAM MARIJANA</span>
+                <h2>Pomažem ti da izgradiš posao u kome se osećaš <em>rasterećeno</em></h2>
+                <p>Radim na digitalnim proizvodima, veštačkoj inteligenciji, marketingu i jednostavnim sistemima koji ljudima pomažu da organizuju svoj rad i razvijaju online poslovanje</p>
+                <button className="about-button" type="button">Pročitaj o meni <ArrowUpRight size={16}/></button>
+              </div>
+              <div className="about-photo-wrap">
+                {content.image ? <img className="about-photo" src={content.image} alt="Marijana, osnivačica Marijana Digital Soul"/> : <div className="about-photo-placeholder">Ovde ćemo postaviti crno-belu portretnu fotografiju</div>}
+              </div>
+            </div>
+          </section>
         </div></div>
       </main>
       <aside className="right-panel"><div className="inspector-heading"><div><span className="panel-kicker">SVOJSTVA</span><h2>Uredi element</h2></div><Pencil size={18}/></div>
