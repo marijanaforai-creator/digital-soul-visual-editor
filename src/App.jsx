@@ -257,7 +257,7 @@ export default function App() {
             </div>
             <div className="collab-visual">
               <img src="/collaboration-photo.webp" alt="Fotografija za individualnu saradnju" />
-              <div className="collab-visual-caption"><span>MARJANA DIGITAL SOUL</span><strong>Ideja dobija oblik kada imaš pravi sistem.</strong></div>
+              <div className="collab-visual-caption"><span>MARIJANA DIGITAL SOUL</span><strong>Ideja dobija oblik kada imaš pravi sistem.</strong></div>
             </div>
             <div className="collab-form-card">
               {collabSubmitted ? (
