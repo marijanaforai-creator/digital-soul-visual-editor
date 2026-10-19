@@ -25,6 +25,7 @@ export default function App() {
   const [device, setDevice] = useState("desktop");
   const [status, setStatus] = useState("Novi nacrt");
   const [error, setError] = useState("");
+  const [saveNotice, setSaveNotice] = useState("");
   const uploadRef = useRef(null);
 
   useEffect(() => {
@@ -44,8 +45,8 @@ export default function App() {
   const saveDraft = () => {
     try {
       localStorage.setItem("digital-soul-editor-draft", JSON.stringify(content));
-      setSaved(content); setStatus("Nacrt sačuvan na ovom uređaju");
-    } catch { setStatus("Nije moguće sačuvati nacrt"); }
+      setSaved(content); setStatus("Nacrt sačuvan na ovom uređaju"); setSaveNotice("Nacrt je sačuvan u ovom pregledaču. Javni sajt nije promenjen."); setError("");
+    } catch { setStatus("Nije moguće sačuvati nacrt"); setSaveNotice(""); setError("Nacrt nije sačuvan. Proveri da li pregledač dozvoljava lokalno čuvanje ili pokušaj da ukloniš i ponovo dodaš veliku fotografiju."); }
   };
   const discard = () => { setContent(saved); setStatus("Vraćeno na poslednji sačuvani nacrt"); setError(""); };
   const chooseImage = event => {
@@ -92,7 +93,7 @@ export default function App() {
       <aside className="right-panel"><div className="inspector-heading"><div><span className="panel-kicker">SVOJSTVA</span><h2>Uredi element</h2></div><Pencil size={18}/></div>
         {selected === "image" ? <div className="inspector-content"><label className="field-label">Fotografija</label><div className="inspector-image">{content.image ? <img src={content.image} alt="Pregled izabrane slike"/> : <div className="empty-image"><ImagePlus size={23}/><span>Nije izabrana slika</span></div>}</div><button className="button button-primary full-width" onClick={() => uploadRef.current?.click()}><Upload size={16}/> {content.image ? "Zameni sliku" : "Umetni sliku"}</button>{content.image && <button className="text-button danger" onClick={() => update("image","")}><X size={14}/> Ukloni sliku</button>}<div className="field-help">Slika je trenutno samo za lokalni pregled. Kasnije ćemo povezati trajno skladištenje.</div></div>
         : <div className="inspector-content"><label className="field-label" htmlFor="selected-value">{fields.find(f => f.key === selected)?.label || "Tekst"}</label>{selected === "description" ? <textarea id="selected-value" value={content[selected]} onChange={e => update(selected,e.target.value)} rows={5}/> : <input id="selected-value" value={content[selected] || ""} onChange={e => update(selected,e.target.value)}/>}<div className="field-help">Izmene se prikazuju odmah u pregledu. Sačuvaj nacrt kada budeš zadovoljna.</div><div className="inspector-divider"/><label className="field-label">Stanje elementa</label><div className="status-card"><Check size={16}/><span>Izmena je ograničena na izabrani element.</span></div></div>}
-        <div className="right-bottom"><div className="security-card"><div className="security-icon"><Eye size={17}/></div><div><strong>Bezbedno uređivanje</strong><p>Objavljeni sajt nije povezan sa ovim prototipom.</p></div></div><button className="button button-primary full-width" onClick={saveDraft}><Save size={16}/> Sačuvaj nacrt</button><div className="publish-note"><span className="note-dot"/> Objavljivanje nije uključeno u prototip.</div></div>
+        <div className="right-bottom"><div className="security-card"><div className="security-icon"><Eye size={17}/></div><div><strong>Bezbedno uređivanje</strong><p>Objavljeni sajt nije povezan sa ovim prototipom.</p></div></div><button className="button button-primary full-width" onClick={saveDraft}><Save size={16}/> Sačuvaj nacrt</button>{saveNotice && <div className="status-card save-confirmation"><Check size={16}/><span>{saveNotice}</span></div>}{error && <p className="error-message">{error}</p>}<div className="publish-note"><span className="note-dot"/> Objavljivanje nije uključeno u prototip.</div></div>
       </aside>
     </div>
   </div>;
