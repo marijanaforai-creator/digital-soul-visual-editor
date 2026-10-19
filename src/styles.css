@@ -114,3 +114,37 @@
 .blog-placeholder-copy h3{font-family:"Playfair Display",Georgia,serif;font-size:clamp(25px,3vw,36px);font-weight:500;line-height:1.15;margin:0}
 .blog-placeholder-copy p{font-size:13px;line-height:1.75;color:#766e62;margin:0;max-width:520px}
 @media(max-width:650px){.blog-section{padding:42px 16px}.blog-editor-placeholder{grid-template-columns:1fr}.blog-placeholder-art{min-height:160px}.blog-placeholder-art span{font-size:68px}.blog-placeholder-copy{padding:24px}}
+
+
+/* Individual collaboration questionnaire prototype */
+.collab-section{padding:clamp(48px,7vw,92px) clamp(20px,6%,82px);background:linear-gradient(135deg,#f8f3eb 0%,#eee4d8 100%);display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,72px);align-items:center;border-top:1px solid #e3d8c9;color:#30243b}
+.collab-intro{max-width:520px}
+.collab-intro h2{font-family:"Playfair Display",Georgia,serif;font-weight:500;font-size:clamp(38px,5vw,62px);line-height:1.06;letter-spacing:-.04em;margin:18px 0;color:#30243b}
+.collab-intro>p{font-size:14px;line-height:1.8;color:#6c6258;max-width:430px;margin:0}
+.collab-note{display:flex;align-items:center;gap:10px;margin-top:28px;color:#7b876e;font-size:11px;letter-spacing:.03em}
+.collab-note>span:first-child{font-size:24px;color:#a4875e}
+.collab-form-card{width:100%;max-width:620px;justify-self:end;padding:clamp(24px,4vw,42px);background:#fffdf8;border:1px solid #e2d7c7;border-radius:18px;box-shadow:0 18px 45px #45352312}
+.collab-progress-row{display:flex;justify-content:space-between;gap:10px;color:#8c795e;font-size:9px;font-weight:700;letter-spacing:.14em}
+.collab-progress{height:4px;background:#eae2d7;border-radius:99px;margin:12px 0 30px;overflow:hidden}
+.collab-progress span{display:block;height:100%;background:#879579;border-radius:99px;transition:width .2s ease}
+.collab-question h3{font-family:"Playfair Display",Georgia,serif;font-weight:500;font-size:clamp(23px,2.8vw,32px);line-height:1.22;margin:0 0 22px;color:#30243b}
+.collab-options{display:flex;flex-direction:column;gap:9px}
+.collab-option{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 14px;border:1px solid #e4dbcf;border-radius:10px;background:#fffdf9;color:#554e46;font:400 12px/1.5 "DM Sans",sans-serif;cursor:pointer;transition:border-color .15s,background .15s}
+.collab-option:hover,.collab-option.selected{border-color:#8d9b7d;background:#f0f2e9}
+.collab-radio{width:18px;height:18px;flex:none;border:1px solid #c8c1b5;border-radius:50%;display:grid;place-items:center;font-size:11px;color:#fff;background:transparent}
+.collab-option.selected .collab-radio{background:#849274;border-color:#849274}
+.collab-textarea,.collab-input{width:100%;border:1px solid #ded4c6;border-radius:9px;background:#fffefa;padding:13px 14px;font:400 13px/1.5 "DM Sans",sans-serif;color:#30243b;outline:none;resize:vertical}
+.collab-textarea:focus,.collab-input:focus{border-color:#879579;box-shadow:0 0 0 3px #87957920}
+.collab-field-intro{margin:-8px 0 22px;color:#776e62;font-size:12px;line-height:1.6}
+.collab-label{display:block;font-size:11px;font-weight:600;color:#62584e;margin:16px 0 7px}
+.collab-privacy-note{font-size:10px;line-height:1.6;color:#8a8176;margin:16px 0 0}
+.collab-form-actions{display:flex;justify-content:space-between;gap:12px;margin-top:28px}
+.collab-primary-button,.collab-secondary-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:11px 17px;border-radius:999px;font:600 11px "DM Sans",sans-serif;cursor:pointer;transition:opacity .15s}
+.collab-primary-button{border:1px solid #78866b;background:#78866b;color:#fffaf2}
+.collab-secondary-button{border:1px solid #d8ccbb;background:transparent;color:#6d6256}
+.collab-primary-button:disabled,.collab-secondary-button:disabled{opacity:.4;cursor:not-allowed}
+.collab-complete{text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px 0}
+.collab-complete-icon{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:#edf0e7;color:#78866b;margin-bottom:6px}
+.collab-complete h3{font-family:"Playfair Display",Georgia,serif;font-size:32px;font-weight:500;margin:0;color:#30243b}
+.collab-complete p{max-width:390px;font-size:12px;line-height:1.7;color:#776e62;margin:0 0 8px}
+@media(max-width:760px){.collab-section{grid-template-columns:1fr;padding:42px 16px;gap:28px}.collab-intro h2{font-size:42px;margin:13px 0}.collab-form-card{justify-self:stretch;padding:23px 18px}.collab-progress{margin-bottom:24px}.collab-question h3{font-size:25px}}
