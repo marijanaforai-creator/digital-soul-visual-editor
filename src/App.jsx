@@ -252,8 +252,12 @@ export default function App() {
             <div className="collab-intro">
               <span className="library-kicker">INDIVIDUALNA SARADNJA</span>
               <h2>Želiš da radimo zajedno?</h2>
-              <p>Odgovori na nekoliko kratkih pitanja kako bih bolje razumela tvoje potrebe i ono što želiš da postigneš.</p>
+              <p>Svaka ideja zaslužuje prostor da se razvije. Kroz individualnu saradnju možemo da razjasnimo tvoje ciljeve, povežemo prave alate i napravimo sledeće korake koji imaju smisla za tebe.</p>
               <div className="collab-note"><span>✧</span><span>Jedno pitanje po koraku · kratko i jednostavno</span></div>
+            </div>
+            <div className="collab-visual">
+              <img src="/collaboration-photo.webp" alt="Fotografija za individualnu saradnju" />
+              <div className="collab-visual-caption"><span>MARJANA DIGITAL SOUL</span><strong>Ideja dobija oblik kada imaš pravi sistem.</strong></div>
             </div>
             <div className="collab-form-card">
               {collabSubmitted ? (
