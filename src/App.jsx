@@ -6,6 +6,8 @@ const initial = {
   topTitle: "Marketing AI Sistem i Digital Soul Drive",
   topSubtitle: "Pametniji marketing, povezani alati. Organizovana prodaja.",
   topQuote: "",
+  marketingMockup: "",
+  driveMockup: "",
   eyebrow: "DIGITALNI ALATI · JEDNOSTAVNI SISTEMI",
   headline: "Tvoja ideja, tvoj glas, tvoj sistem",
   description: "Mesto za digitalne proizvode, pametne alate i sisteme koji ti pomažu da organizuješ ideje i razvijaš online posao",
@@ -58,6 +60,8 @@ export default function App() {
   const [error, setError] = useState("");
   const [saveNotice, setSaveNotice] = useState("");
   const uploadRef = useRef(null);
+  const marketingUploadRef = useRef(null);
+  const driveUploadRef = useRef(null);
 
   useEffect(() => {
     let active = true;
@@ -107,6 +111,16 @@ export default function App() {
     reader.onerror = () => setError("Slika nije mogla da se učita.");
     reader.readAsDataURL(file); event.target.value = "";
   };
+  const chooseMockup = (event, key) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) { setError("Izaberi datoteku slike."); return; }
+    if (file.size > 8 * 1024 * 1024) { setError("Za prototip izaberi sliku manju od 8 MB."); return; }
+    const reader = new FileReader();
+    reader.onload = () => { update(key, String(reader.result)); setError(""); };
+    reader.onerror = () => setError("Slika nije mogla da se učita.");
+    reader.readAsDataURL(file); event.target.value = "";
+  };
   const dirty = JSON.stringify(content) !== JSON.stringify(saved);
   const select = key => { if (editing) setSelected(key); };
   const editable = (key, className, children) => (
@@ -152,6 +166,34 @@ export default function App() {
             {editable("topTitle","intro-title",content.topTitle || "Dodaj glavni naslov")}
             {editable("topSubtitle","intro-subtitle",content.topSubtitle || "Dodaj podnaslov")}
             {editable("topQuote","intro-quote",content.topQuote || "Ovde možeš dodati citat (nije obavezno)")}
+          </section>
+          <section className="mockup-cards">
+            <article className="mockup-card marketing-card">
+              <div className="mockup-image-area">
+                {content.marketingMockup ? <img src={content.marketingMockup} alt="Marketing AI Sistem mockup"/> : <button className="mockup-upload-placeholder" onClick={() => marketingUploadRef.current?.click()}><ImagePlus size={28}/><strong>Dodaj mockup</strong><span>Marketing AI Sistem</span></button>}
+              </div>
+              <input ref={marketingUploadRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e,"marketingMockup")}/>
+              <div className="mockup-copy">
+                <span className="mockup-kicker">MARKETING · AI · PRODAJA</span>
+                <h2>Marketing AI Sistem</h2>
+                <h3>Pametniji marketing, povezani alati. Organizovana prodaja.</h3>
+                <p>Kratko objašnjenje dodajemo kada budeš spremna.</p>
+                {content.marketingMockup && <button className="mockup-change" onClick={() => marketingUploadRef.current?.click()}>Zameni mockup</button>}
+              </div>
+            </article>
+            <article className="mockup-card drive-card">
+              <div className="mockup-image-area">
+                {content.driveMockup ? <img src={content.driveMockup} alt="Digital Soul Drive mockup"/> : <button className="mockup-upload-placeholder" onClick={() => driveUploadRef.current?.click()}><ImagePlus size={28}/><strong>Dodaj mockup</strong><span>Digital Soul Drive</span></button>}
+              </div>
+              <input ref={driveUploadRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e,"driveMockup")}/>
+              <div className="mockup-copy">
+                <span className="mockup-kicker">DIGITALNI SISTEM</span>
+                <h2>Digital Soul Drive</h2>
+                <h3>Upoznajte Digital Soul Drive</h3>
+                <p>Opis ćemo dodati kada ga zajedno razradimo.</p>
+                {content.driveMockup && <button className="mockup-change" onClick={() => driveUploadRef.current?.click()}>Zameni mockup</button>}
+              </div>
+            </article>
           </section>
         </div></div>
       </main>
