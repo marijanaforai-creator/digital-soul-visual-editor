@@ -221,6 +221,18 @@ export default function App() {
               <article className="library-card library-partners"><div className="library-card-art"><span className="library-art-symbol">∞</span><span className="library-art-label">saradnja · mogućnosti</span></div><div className="library-card-copy"><span className="library-number">06</span><h2>Partnerski programi</h2><p>Resursi i mogućnosti za partnersku saradnju.</p><button type="button">Saznaj više <ArrowUpRight size={15}/></button></div></article>
             </div>
           </section>
+
+          <section className="blog-section">
+            <div className="blog-section-heading">
+              <span className="library-kicker">IDEJE · ZNANJE · INSPIRACIJA</span>
+              <h2>Blog</h2>
+              <p>Tekstovi i praktične ideje koje ti pomažu da napraviš sledeći korak.</p>
+            </div>
+            <div className="blog-editor-placeholder">
+              <div className="blog-placeholder-art"><span>✎</span></div>
+              <div className="blog-placeholder-copy"><span className="library-number">BLOG STUDIO</span><h3>Prostor za tvoje tekstove</h3><p>Ovde ćemo dodati blog članke, njihove naslovne slike, kratke opise i dugme za čitanje. Sadržaj ćemo zajedno razraditi kasnije.</p></div>
+            </div>
+          </section>
           <section className="free-content-section">
             <div className="free-content-heading"><span className="library-kicker">BESPLATNI SADRŽAJ</span><h2>Uzmi ono što ti može pomoći odmah</h2></div>
             <div className="free-content-grid">
@@ -230,6 +242,7 @@ export default function App() {
               <article className="free-content-card"><button type="button" className="free-content-image" onClick={() => freeAIRef.current?.click()}>{content.freeAIImage ? <img src={content.freeAIImage} alt="Mockup besplatnih AI materijala"/> : <><ImagePlus size={25}/><strong>Dodaj sliku ili mockup</strong></>}</button><input ref={freeAIRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e,"freeAIImage")}/><div className="free-content-copy"><span>04</span><h3>Besplatni AI materijali</h3><p>Upiti, ideje i praktični AI resursi</p>{content.freeAIImage && <button type="button" onClick={() => freeAIRef.current?.click()}>Zameni sliku</button>}</div></article>
             </div>
           </section>
+
 
         </div></div>
       </main>
