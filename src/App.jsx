@@ -138,7 +138,7 @@ export default function App() {
                 <button className="about-button" type="button">Pročitaj o meni <ArrowUpRight size={16}/></button>
               </div>
               <div className="about-photo-wrap">
-                <img className="about-photo" src="/marijana-about-portrait-crop.jpg" alt="Crno-beli portret za sekciju O meni" />
+                <img className="about-photo" src="https://raw.githubusercontent.com/marijanaforai-creator/digital-soul-visual-editor/main/marijana-about-portrait-crop.jpg" alt="Crno-beli portret za sekciju O meni" />
               </div>
             </div>
           </section>
