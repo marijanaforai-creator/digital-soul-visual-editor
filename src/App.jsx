@@ -9,6 +9,31 @@ const initial = {
   button: "Istraži biblioteku",
   image: ""
 };
+const DRAFT_KEY = "digital-soul-editor-draft-v2";
+const openDraftDB = () => new Promise((resolve, reject) => {
+  const request = indexedDB.open("digital-soul-editor-storage", 1);
+  request.onupgradeneeded = () => request.result.createObjectStore("drafts");
+  request.onsuccess = () => resolve(request.result);
+  request.onerror = () => reject(request.error);
+});
+const readStoredDraft = async () => {
+  const db = await openDraftDB();
+  return new Promise((resolve, reject) => {
+    const request = db.transaction("drafts", "readonly").objectStore("drafts").get(DRAFT_KEY);
+    request.onsuccess = () => { db.close(); resolve(request.result || null); };
+    request.onerror = () => { db.close(); reject(request.error); };
+  });
+};
+const writeStoredDraft = async (value) => {
+  const db = await openDraftDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction("drafts", "readwrite");
+    tx.objectStore("drafts").put(value, DRAFT_KEY);
+    tx.oncomplete = () => { db.close(); resolve(); };
+    tx.onerror = () => { db.close(); reject(tx.error); };
+    tx.onabort = () => { db.close(); reject(tx.error || new Error("Čuvanje je prekinuto")); };
+  });
+};
 const fields = [
   { key: "brand", label: "Naziv brenda" },
   { key: "eyebrow", label: "Mali naslov" },
@@ -29,24 +54,41 @@ export default function App() {
   const uploadRef = useRef(null);
 
   useEffect(() => {
-    try {
-      const draft = localStorage.getItem("digital-soul-editor-draft");
-      if (draft) {
-        const parsed = { ...initial, ...JSON.parse(draft) };
-        setContent(parsed); setSaved(parsed); setStatus("Učitan lokalni nacrt");
+    let active = true;
+    (async () => {
+      try {
+        const draft = await readStoredDraft();
+        if (active && draft) {
+          const parsed = { ...initial, ...draft };
+          setContent(parsed); setSaved(parsed); setStatus("Učitan lokalni nacrt");
+        } else if (active) {
+          const legacy = localStorage.getItem("digital-soul-editor-draft");
+          if (legacy) {
+            const parsed = { ...initial, ...JSON.parse(legacy) };
+            setContent(parsed); setSaved(parsed); setStatus("Učitan raniji lokalni nacrt");
+          }
+        }
+      } catch {
+        if (active) setStatus("Novi nacrt");
       }
-    } catch { setStatus("Novi nacrt"); }
+    })();
+    return () => { active = false; };
   }, []);
 
   const update = (key, value) => {
     setContent(current => ({ ...current, [key]: value }));
     setStatus("Nesačuvane izmene");
   };
-  const saveDraft = () => {
+  const saveDraft = async () => {
+    setSaveNotice(""); setError(""); setStatus("Čuvanje nacrta…");
     try {
-      localStorage.setItem("digital-soul-editor-draft", JSON.stringify(content));
-      setSaved(content); setStatus("Nacrt sačuvan na ovom uređaju"); setSaveNotice("Nacrt je sačuvan u ovom pregledaču. Javni sajt nije promenjen."); setError("");
-    } catch { setStatus("Nije moguće sačuvati nacrt"); setSaveNotice(""); setError("Nacrt nije sačuvan. Proveri da li pregledač dozvoljava lokalno čuvanje ili pokušaj da ukloniš i ponovo dodaš veliku fotografiju."); }
+      await writeStoredDraft(content);
+      setSaved(content); setStatus("Nacrt sačuvan na ovom uređaju");
+      setSaveNotice("Nacrt i fotografija sačuvani su u ovom pregledaču. Javni sajt nije promenjen.");
+    } catch (e) {
+      setStatus("Nije moguće sačuvati nacrt");
+      setError("Čuvanje nije uspelo. Proveri slobodan prostor u pregledaču ili pokušaj sa manjom fotografijom.");
+    }
   };
   const discard = () => { setContent(saved); setStatus("Vraćeno na poslednji sačuvani nacrt"); setError(""); };
   const chooseImage = event => {
