@@ -5,7 +5,7 @@ const initial = {
   brand: "Marijana AI Digital Soul",
   eyebrow: "DIGITALNI ALATI · JEDNOSTAVNI SISTEMI",
   headline: "Izgradi svoj digitalni svet",
-  description: "Mesto za digitalne proizvode, pametne alate i sisteme koji ti pomažu da organizuješ ideje i razvijaš online posao.",
+  description: "Mesto za digitalne proizvode, pametne alate i sisteme koji ti pomažu da organizuješ ideje i razvijaš online posao",
   button: "Istraži biblioteku",
   image: ""
 };
@@ -86,7 +86,7 @@ export default function App() {
           <nav className="site-nav"><div className="site-brand">{content.brand}</div><div className="nav-links"><span>Počni ovde</span><span>Biblioteka rešenja</span><span>Blog</span><span>O meni</span></div><button className="nav-cta">Počni ovde <ArrowUpRight size={14}/></button></nav>
           <section className="hero"><div className="hero-copy">{editable("eyebrow","eyebrow",content.eyebrow)}{editable("headline","hero-title",content.headline)}{editable("description","hero-description",content.description)}<button className={`hero-cta editable ${selected === "button" && editing ? "chosen" : ""}`} onClick={() => select("button")}>{selected === "button" && editing && <span className="selection-label">DUGME</span>}{content.button}<ArrowUpRight size={16}/></button><div className="hero-caption"><span className="caption-line"/> PROSTOR ZA IDEJE. SISTEM ZA RAST.</div></div>
           <div className={`hero-image editable ${selected === "image" && editing ? "chosen" : ""}`} onClick={() => { if (editing) { setSelected("image"); uploadRef.current?.click(); } }}>{content.image ? <img src={content.image} alt="Izabrana fotografija za pregled"/> : <div className="image-placeholder"><div className="image-placeholder-icon"><ImagePlus size={25}/></div><strong>Umetni svoju fotografiju</strong><span>Klikni ovde da izabereš sliku</span></div>}{selected === "image" && editing && <span className="selection-label image-label">FOTOGRAFIJA · KLIKNI DA ZAMENIŠ</span>}</div></section>
-          <section className="below-fold"><span className="below-kicker">JEDNO MESTO · VIŠE MOGUĆNOSTI</span><h2>Od ideje do sistema koji radi za tebe.</h2><p>Ovo je primer rasporeda. Kasnije ćemo povezati stvarne sekcije postojećeg sajta.</p></section>
+          <section className="below-fold"><span className="below-kicker">JEDNO MESTO · VIŠE MOGUĆNOSTI</span><h2>Od ideje do sistema koji radi za tebe</h2><p>Ovo je primer rasporeda. Kasnije ćemo povezati stvarne sekcije postojećeg sajta</p></section>
         </div></div>
       </main>
       <aside className="right-panel"><div className="inspector-heading"><div><span className="panel-kicker">SVOJSTVA</span><h2>Uredi element</h2></div><Pencil size={18}/></div>
