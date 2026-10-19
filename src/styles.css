@@ -13,3 +13,20 @@
 .intro-banner .editable{cursor:pointer;border-radius:5px;padding:3px 7px;max-width:100%}
 .intro-banner .editable.chosen{outline:1px dashed #a98bc8;background:#ffffff70}
 @media(max-width:760px){.intro-banner{padding:42px 6% 34px;gap:11px}.intro-title{font-size:clamp(27px,7vw,38px)}.intro-subtitle{font-size:14px}.intro-quote{font-size:16px}}
+
+
+/* Two editable mockup cards beneath the intro */
+.mockup-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;padding:clamp(24px,4vw,54px) clamp(20px,6%,72px) 72px;background:#fbf8f2}
+.mockup-card{min-width:0;overflow:hidden;border:1px solid #e6ded2;border-radius:18px;background:#f3ecdf;display:flex;flex-direction:column;box-shadow:0 12px 30px #33271a0a}
+.mockup-image-area{aspect-ratio:1.43/1;background:linear-gradient(135deg,#f8f0e4,#e9dfcf);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.mockup-image-area>img{width:100%;height:100%;object-fit:cover;display:block}
+.mockup-upload-placeholder{width:100%;height:100%;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:transparent;border:0;color:#7b8a70;cursor:pointer;font:inherit}
+.mockup-upload-placeholder strong{font-family:"Playfair Display",serif;font-size:clamp(20px,2vw,29px);font-weight:500;color:#29271f}
+.mockup-upload-placeholder span{font-size:12px;color:#827a6e}
+.mockup-copy{padding:clamp(22px,3vw,38px);display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.mockup-kicker{font-size:10px;letter-spacing:.16em;font-weight:700;color:#77876b}
+.mockup-copy h2{font-family:"Playfair Display",serif;font-size:clamp(24px,2.5vw,35px);line-height:1.15;font-weight:500;margin:0;color:#29271f}
+.mockup-copy h3{font-family:"DM Sans",sans-serif;font-size:clamp(13px,1.2vw,16px);font-weight:500;line-height:1.6;margin:0;color:#66745f}
+.mockup-copy p{font-size:13px;line-height:1.7;margin:0;color:#756e63}
+.mockup-change{margin-top:5px;border:1px solid #cfc5b4;border-radius:7px;background:#faf7f0;color:#5f6f56;padding:9px 12px;font:500 11px "DM Sans",sans-serif;cursor:pointer}
+@media(max-width:760px){.mockup-cards{grid-template-columns:1fr;gap:22px;padding:26px 18px 46px}.mockup-image-area{aspect-ratio:1.25/1}.mockup-upload-placeholder{min-height:190px}.mockup-copy{padding:23px}}
