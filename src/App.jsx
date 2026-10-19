@@ -62,6 +62,11 @@ export default function App() {
   const [status, setStatus] = useState("Novi nacrt");
   const [error, setError] = useState("");
   const [saveNotice, setSaveNotice] = useState("");
+  const [collabStep, setCollabStep] = useState(0);
+  const [collabAnswers, setCollabAnswers] = useState(["", "", "", "", ""]);
+  const [collabName, setCollabName] = useState("");
+  const [collabPhone, setCollabPhone] = useState("");
+  const [collabSubmitted, setCollabSubmitted] = useState(false);
   const uploadRef = useRef(null);
   const marketingUploadRef = useRef(null);
   const driveUploadRef = useRef(null);
@@ -240,6 +245,76 @@ export default function App() {
               <article className="free-content-card"><button type="button" className="free-content-image" onClick={() => freeTemplateRef.current?.click()}>{content.freeTemplateImage ? <img src={content.freeTemplateImage} alt="Mockup besplatnih šablona"/> : <><ImagePlus size={25}/><strong>Dodaj sliku ili mockup</strong></>}</button><input ref={freeTemplateRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e,"freeTemplateImage")}/><div className="free-content-copy"><span>02</span><h3>Besplatni šabloni</h3><p>Gotove strukture za lakši početak</p>{content.freeTemplateImage && <button type="button" onClick={() => freeTemplateRef.current?.click()}>Zameni sliku</button>}</div></article>
               <article className="free-content-card"><button type="button" className="free-content-image" onClick={() => freeChecklistRef.current?.click()}>{content.freeChecklistImage ? <img src={content.freeChecklistImage} alt="Mockup besplatnih kontrolnih lista"/> : <><ImagePlus size={25}/><strong>Dodaj sliku ili mockup</strong></>}</button><input ref={freeChecklistRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e,"freeChecklistImage")}/><div className="free-content-copy"><span>03</span><h3>Besplatne kontrolne liste</h3><p>Koraci koje možeš pratiti bez komplikovanja</p>{content.freeChecklistImage && <button type="button" onClick={() => freeChecklistRef.current?.click()}>Zameni sliku</button>}</div></article>
               <article className="free-content-card"><button type="button" className="free-content-image" onClick={() => freeAIRef.current?.click()}>{content.freeAIImage ? <img src={content.freeAIImage} alt="Mockup besplatnih AI materijala"/> : <><ImagePlus size={25}/><strong>Dodaj sliku ili mockup</strong></>}</button><input ref={freeAIRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e,"freeAIImage")}/><div className="free-content-copy"><span>04</span><h3>Besplatni AI materijali</h3><p>Upiti, ideje i praktični AI resursi</p>{content.freeAIImage && <button type="button" onClick={() => freeAIRef.current?.click()}>Zameni sliku</button>}</div></article>
+            </div>
+          </section>
+
+          <section className="collab-section" id="individualna-saradnja">
+            <div className="collab-intro">
+              <span className="library-kicker">INDIVIDUALNA SARADNJA</span>
+              <h2>Želiš da radimo zajedno?</h2>
+              <p>Odgovori na nekoliko kratkih pitanja kako bih bolje razumela tvoje potrebe i ono što želiš da postigneš.</p>
+              <div className="collab-note"><span>✧</span><span>Jedno pitanje po koraku · kratko i jednostavno</span></div>
+            </div>
+            <div className="collab-form-card">
+              {collabSubmitted ? (
+                <div className="collab-complete">
+                  <span className="collab-complete-icon"><Check size={28}/></span>
+                  <span className="library-kicker">HVALA TI</span>
+                  <h3>Upitnik je spreman</h3>
+                  <p>Ovo je probni prikaz upitnika. Slanje odgovora još nije povezano, pa podaci nisu poslati.</p>
+                  <button type="button" className="collab-secondary-button" onClick={() => { setCollabSubmitted(false); setCollabStep(0); setCollabAnswers(["", "", "", "", ""]); setCollabName(""); setCollabPhone(""); }}>Popuni ponovo</button>
+                </div>
+              ) : (
+                <>
+                  <div className="collab-progress-row"><span>{collabStep < 5 ? `PITANJE ${collabStep + 1} OD 5` : "ZAVRŠNI KORAK"}</span><span>{collabStep < 5 ? Math.round(((collabStep + 1) / 6) * 100) : 100}%</span></div>
+                  <div className="collab-progress"><span style={{width: `${collabStep < 5 ? ((collabStep + 1) / 6) * 100 : 100}%`}}/></div>
+                  {collabStep < 5 ? (
+                    <div className="collab-question">
+                      <h3>{[
+                        "Šta te je navelo da se prijaviš za individualnu saradnju?",
+                        "U kojoj si trenutno fazi?",
+                        "Šta ti trenutno predstavlja najveći izazov?",
+                        "Šta bi najviše volela da postigneš našom saradnjom?",
+                        "Postoji li još nešto što želiš da znam pre nego što te kontaktiram?"
+                      ][collabStep]}</h3>
+                      {collabStep === 4 ? (
+                        <textarea className="collab-textarea" rows={4} placeholder="Napiši odgovor (opciono)..." value={collabAnswers[collabStep]} onChange={e => setCollabAnswers(current => current.map((answer, index) => index === collabStep ? e.target.value : answer))}/>
+                      ) : (
+                        <div className="collab-options">
+                          {[
+                            ["Želim da razvijem svoju poslovnu ideju.", "Želim da pokrenem online posao.", "Potrebna mi je pomoć oko marketinga i prodaje.", "Želim da koristim AI alate i automatizaciju.", "Želim da organizujem svoje ideje i projekte.", "Nešto drugo."],
+                            ["Tek istražujem mogućnosti.", "Imam ideju, ali mi treba pomoć da je razvijem.", "Već radim i želim bolju organizaciju.", "Imam posao i želim da unapredim prodaju.", "Nešto drugo."],
+                            ["Ne znam odakle da počnem.", "Imam mnogo ideja, ali mi nedostaje jasan plan.", "Ne znam kako da dođem do kupaca.", "Potrebna mi je pomoć u korišćenju AI alata.", "Nedostaju mi vreme i organizacija.", "Nešto drugo."],
+                            ["Da napravim konkretan plan i počnem da ga sprovodim.", "Da razvijem svoj digitalni proizvod ili uslugu.", "Da unapredim marketing i prodaju.", "Da izgradim svoj online sistem poslovanja.", "Da naučim da efikasnije koristim AI.", "Nešto drugo."]
+                          ][collabStep].map(option => (
+                            <button key={option} type="button" className={collabAnswers[collabStep] === option ? "collab-option selected" : "collab-option"} onClick={() => setCollabAnswers(current => current.map((answer, index) => index === collabStep ? option : answer))}>
+                              <span className="collab-radio">{collabAnswers[collabStep] === option ? "✓" : ""}</span>{option}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="collab-question">
+                      <h3>Još samo nekoliko podataka</h3>
+                      <p className="collab-field-intro">Ostavi podatke kako bismo mogle da stupimo u kontakt sa tobom.</p>
+                      <label className="collab-label" htmlFor="collab-name">Ime i prezime *</label>
+                      <input id="collab-name" className="collab-input" autoComplete="name" value={collabName} onChange={e => setCollabName(e.target.value)} placeholder="Unesi ime i prezime" required/>
+                      <label className="collab-label" htmlFor="collab-phone">Broj telefona *</label>
+                      <input id="collab-phone" className="collab-input" type="tel" autoComplete="tel" value={collabPhone} onChange={e => setCollabPhone(e.target.value)} placeholder="Unesi broj telefona" required/>
+                      <p className="collab-privacy-note">Podaci su za potrebe ovog probnog prikaza. Slanje i obrada odgovora još nisu povezani.</p>
+                    </div>
+                  )}
+                  <div className="collab-form-actions">
+                    <button type="button" className="collab-secondary-button" disabled={collabStep === 0} onClick={() => setCollabStep(step => Math.max(0, step - 1))}>Nazad</button>
+                    {collabStep < 5 ? (
+                      <button type="button" className="collab-primary-button" disabled={collabStep < 4 && !collabAnswers[collabStep]} onClick={() => setCollabStep(step => Math.min(5, step + 1))}>Dalje <ArrowUpRight size={15}/></button>
+                    ) : (
+                      <button type="button" className="collab-primary-button" disabled={!collabName.trim() || !collabPhone.trim()} onClick={() => setCollabSubmitted(true)}>Pošalji upitnik <ArrowUpRight size={15}/></button>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
           </section>
 
