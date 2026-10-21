@@ -59,6 +59,7 @@ export default function App() {
   const [selected, setSelected] = useState("headline");
   const [editing, setEditing] = useState(true);
   const [device, setDevice] = useState("desktop");
+  const [activePage, setActivePage] = useState("home");
   const [status, setStatus] = useState("Novi nacrt");
   const [error, setError] = useState("");
   const [saveNotice, setSaveNotice] = useState("");
@@ -156,12 +157,12 @@ export default function App() {
         <div className="panel-note"><span className="note-icon">i</span><p>Promene se čuvaju samo u ovom pregledaču, ne na javnom sajtu.</p></div>
       </aside>
       <main className="canvas-area">
-        <div className="canvas-toolbar"><div className="breadcrumb"><span>Moji sajtovi</span><span>/</span><strong>Početna stranica</strong><span className="draft-tag">NACRT</span></div><div className="device-switch"><button className={device === "desktop" ? "active" : ""} onClick={() => setDevice("desktop")} title="Računar"><Monitor size={16}/></button><button className={device === "tablet" ? "active" : ""} onClick={() => setDevice("tablet")} title="Tablet"><Tablet size={16}/></button><button className={device === "mobile" ? "active" : ""} onClick={() => setDevice("mobile")} title="Telefon"><Smartphone size={16}/></button></div><button className="preview-button" onClick={() => setEditing(!editing)}>{editing ? <><Eye size={15}/> Pregled</> : <><Pencil size={15}/> Nastavi uređivanje</>}</button></div>
+        <div className="canvas-toolbar"><div className="breadcrumb"><span>Moji sajtovi</span><span>/</span><strong>{({home:"Početna",library:"Biblioteka rešenja",blog:"Blog",free:"Besplatni sadržaj",collab:"Individualna saradnja"})[activePage]}</strong><span className="draft-tag">NACRT</span></div><label className="page-picker-label">Stranica <select className="page-picker" aria-label="Izaberi stranicu za pregled" value={activePage} onChange={e => setActivePage(e.target.value)}><option value="home">Početna</option><option value="library">Biblioteka rešenja</option><option value="blog">Blog</option><option value="free">Besplatni sadržaj</option><option value="collab">Individualna saradnja</option></select></label><div className="device-switch"><button className={device === "desktop" ? "active" : ""} onClick={() => setDevice("desktop")} title="Računar"><Monitor size={16}/></button><button className={device === "tablet" ? "active" : ""} onClick={() => setDevice("tablet")} title="Tablet"><Tablet size={16}/></button><button className={device === "mobile" ? "active" : ""} onClick={() => setDevice("mobile")} title="Telefon"><Smartphone size={16}/></button></div><button className="preview-button" onClick={() => setEditing(!editing)}>{editing ? <><Eye size={15}/> Pregled</> : <><Pencil size={15}/> Nastavi uređivanje</>}</button></div>
         <div className="preview-stage"><div className={`website-preview ${device} ${editing ? "editing" : "preview-only"}`}>
           <nav className="site-nav"><div className="site-brand">{content.brand}</div><div className="nav-links"><span>Počni ovde</span><span>AI alati</span><span>Radni alati</span><span>Biblioteka rešenja</span><span>Svi proizvodi</span><details className="nav-more"><summary>Više <span aria-hidden="true">⌄</span></summary><div className="nav-dropdown"><span>Sistem</span><span>Blog</span><span>O meni</span><span>1 na 1</span><span>Česta pitanja</span></div></details></div></nav>
-          <section className="hero"><div className="hero-copy">{editable("eyebrow","eyebrow",content.eyebrow)}{editable("headline","hero-title",content.headline.split(/(glas)/i).map((part, i) => part.toLowerCase() === "glas" ? <em key={i} className="feminine-word">{part}</em> : part))}{editable("description","hero-description",content.description)}<div className="hero-actions"><button className={`hero-cta hero-cta-primary editable ${selected === "button" && editing ? "chosen" : ""}`} onClick={() => select("button")}>{selected === "button" && editing && <span className="selection-label">DUGME 1</span>}{content.button || "Počni ovde"}<ArrowUpRight size={16}/></button><button className="hero-cta hero-cta-secondary" type="button">Blog<ArrowUpRight size={16}/></button></div><div className="hero-caption"><span className="caption-line"/> PROSTOR ZA IDEJE. SISTEM ZA RAST.</div></div>
+          <section className="hero" style={{display: activePage === "home" ? undefined : "none"}}><div className="hero-copy">{editable("eyebrow","eyebrow",content.eyebrow)}{editable("headline","hero-title",content.headline.split(/(glas)/i).map((part, i) => part.toLowerCase() === "glas" ? <em key={i} className="feminine-word">{part}</em> : part))}{editable("description","hero-description",content.description)}<div className="hero-actions"><button className={`hero-cta hero-cta-primary editable ${selected === "button" && editing ? "chosen" : ""}`} onClick={() => select("button")}>{selected === "button" && editing && <span className="selection-label">DUGME 1</span>}{content.button || "Počni ovde"}<ArrowUpRight size={16}/></button><button className="hero-cta hero-cta-secondary" type="button">Blog<ArrowUpRight size={16}/></button></div><div className="hero-caption"><span className="caption-line"/> PROSTOR ZA IDEJE. SISTEM ZA RAST.</div></div>
           <div className={`hero-image editable ${selected === "image" && editing ? "chosen" : ""}`} onClick={() => { if (editing) { setSelected("image"); uploadRef.current?.click(); } }}>{content.image ? <img src={content.image} alt="Izabrana fotografija za pregled"/> : <div className="image-placeholder"><div className="image-placeholder-icon"><ImagePlus size={25}/></div><strong>Umetni svoju fotografiju</strong><span>Klikni ovde da izabereš sliku</span></div>}{selected === "image" && editing && <span className="selection-label image-label">FOTOGRAFIJA · KLIKNI DA ZAMENIŠ</span>}</div></section>
-          <section className="about-section">
+          <section className="about-section" style={{display: activePage === "home" ? undefined : "none"}}>
             <div className="about-inner">
               <div className="about-copy">
                 <span className="about-eyebrow">ZDRAVO, JA SAM MARIJANA</span>
@@ -174,7 +175,7 @@ export default function App() {
               </div>
             </div>
           </section>
-          <section className="mockup-cards">
+          <section className="mockup-cards" style={{display: activePage === "home" ? undefined : "none"}}>
             <article className="mockup-card marketing-card">
               <div className="mockup-image-area">
                 {content.marketingMockup ? <img src={content.marketingMockup} alt="Marketing AI Sistem mockup"/> : <button className="mockup-upload-placeholder" onClick={() => marketingUploadRef.current?.click()}><ImagePlus size={28}/><strong>Dodaj mockup</strong><span>Marketing AI Sistem</span></button>}
@@ -202,7 +203,7 @@ export default function App() {
               </div>
             </article>
           </section>
-                    <section className="library-section">
+                    <section className="library-section" style={{display: activePage === "library" ? undefined : "none"}}>
             <div className="library-hero">
               <div className="library-hero-copy">
                 <span className="library-kicker">TVOJ PROSTOR ZA RAZVOJ I STVARANJE</span>
@@ -227,7 +228,7 @@ export default function App() {
             </div>
           </section>
 
-          <section className="blog-section">
+          <section className="blog-section" style={{display: activePage === "blog" ? undefined : "none"}}>
             <div className="blog-section-heading">
               <span className="library-kicker">IDEJE · ZNANJE · INSPIRACIJA</span>
               <h2>Blog</h2>
@@ -238,7 +239,7 @@ export default function App() {
               <div className="blog-placeholder-copy"><span className="library-number">BLOG STUDIO</span><h3>Prostor za tvoje tekstove</h3><p>Ovde ćemo dodati blog članke, njihove naslovne slike, kratke opise i dugme za čitanje. Sadržaj ćemo zajedno razraditi kasnije.</p></div>
             </div>
           </section>
-          <section className="free-content-section">
+          <section className="free-content-section" style={{display: activePage === "free" ? undefined : "none"}}>
             <div className="free-content-heading"><span className="library-kicker">BESPLATNI SADRŽAJ</span><h2>Uzmi ono što ti može pomoći odmah</h2></div>
             <div className="free-content-grid">
               <article className="free-content-card"><button type="button" className="free-content-image" onClick={() => freeGuideRef.current?.click()}>{content.freeGuideImage ? <img src={content.freeGuideImage} alt="Mockup besplatnih vodiča"/> : <><ImagePlus size={25}/><strong>Dodaj sliku ili mockup</strong></>}</button><input ref={freeGuideRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e,"freeGuideImage")}/><div className="free-content-copy"><span>01</span><h3>Besplatni vodiči</h3><p>Jasne upute za konkretne probleme i zadatke</p>{content.freeGuideImage && <button type="button" onClick={() => freeGuideRef.current?.click()}>Zameni sliku</button>}</div></article>
@@ -248,7 +249,7 @@ export default function App() {
             </div>
           </section>
 
-          <section className="collab-section" id="individualna-saradnja">
+          <section className="collab-section" id="individualna-saradnja" style={{display: activePage === "collab" ? undefined : "none"}}>
             <div className="collab-intro">
               <span className="library-kicker">INDIVIDUALNA SARADNJA</span>
               <h2>Želiš da radimo zajedno?</h2>
