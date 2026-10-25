@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Check, Eye, ImagePlus, LayoutTemplate, Monitor, Pencil, Save, Smartphone, Tablet, Type, Undo2, Upload, X } from "lucide-react";
 import PageBuilder from "./PageBuilder.jsx";
+import { openEditorDatabase } from "./editorDatabase.js";
+import { createDraftSaveController } from "./draftSave.js";
 
 const initial = {
   brand: "Marijana Digital Soul",
@@ -19,14 +21,8 @@ const initial = {
   image: ""
 };
 const DRAFT_KEY = "digital-soul-editor-draft-v2";
-const openDraftDB = () => new Promise((resolve, reject) => {
-  const request = indexedDB.open("digital-soul-editor-storage", 1);
-  request.onupgradeneeded = () => request.result.createObjectStore("drafts");
-  request.onsuccess = () => resolve(request.result);
-  request.onerror = () => reject(request.error);
-});
 const readStoredDraft = async () => {
-  const db = await openDraftDB();
+  const db = await openEditorDatabase();
   return new Promise((resolve, reject) => {
     const request = db.transaction("drafts", "readonly").objectStore("drafts").get(DRAFT_KEY);
     request.onsuccess = () => { db.close(); resolve(request.result || null); };
@@ -34,7 +30,7 @@ const readStoredDraft = async () => {
   });
 };
 const writeStoredDraft = async (value) => {
-  const db = await openDraftDB();
+  const db = await openEditorDatabase();
   return new Promise((resolve, reject) => {
     const tx = db.transaction("drafts", "readwrite");
     tx.objectStore("drafts").put(value, DRAFT_KEY);
@@ -71,6 +67,9 @@ export default function App() {
   const [collabPhone, setCollabPhone] = useState("");
   const [collabSubmitted, setCollabSubmitted] = useState(false);
   const uploadRef = useRef(null);
+  const saveController = useRef(null);
+  const [saving, setSaving] = useState(false);
+  if (!saveController.current) saveController.current = createDraftSaveController(writeStoredDraft);
   const marketingUploadRef = useRef(null);
   const driveUploadRef = useRef(null);
   const freeGuideRef = useRef(null);
@@ -150,7 +149,7 @@ export default function App() {
   return <div className="app-shell">
     <header className="topbar">
       <div className="brand-lockup"><div className="brand-mark">DS</div><div><div className="brand-title">Digital Soul</div><div className="brand-subtitle">VIZUELNI EDITOR · PROTOTIP</div></div></div>
-      <div className="top-actions"><span className={`save-state ${dirty ? "dirty" : ""}`}><span className="state-dot"/>{dirty ? "Nesačuvane izmene" : status}</span><button className="button button-quiet" onClick={discard}><Undo2 size={16}/> Vrati</button><button className="button button-primary" onClick={saveDraft}><Save size={16}/> Sačuvaj nacrt</button><button className="button button-quiet" onClick={() => setBuilderMode(true)}><LayoutTemplate size={16}/> Page builder</button></div>
+      <div className="top-actions"><span className={`save-state ${dirty ? "dirty" : ""}`}><span className="state-dot"/>{dirty ? "Nesačuvane izmene" : status}</span><button className="button button-quiet" onClick={discard}><Undo2 size={16}/> Vrati</button><button className="button button-primary" onClick={saveDraft} disabled={saving}><Save size={16}/> {saving ? "Čuvanje…" : "Sačuvaj nacrt"}</button><button className="button button-quiet" onClick={() => setBuilderMode(true)}><LayoutTemplate size={16}/> Page builder</button></div>
     </header>
     <div className="workspace">
       <aside className="left-panel">
@@ -333,7 +332,7 @@ export default function App() {
       <aside className="right-panel"><div className="inspector-heading"><div><span className="panel-kicker">SVOJSTVA</span><h2>Uredi element</h2></div><Pencil size={18}/></div>
         {selected === "image" ? <div className="inspector-content"><label className="field-label">Fotografija</label><div className="inspector-image">{content.image ? <img src={content.image} alt="Pregled izabrane slike"/> : <div className="empty-image"><ImagePlus size={23}/><span>Nije izabrana slika</span></div>}</div><button className="button button-primary full-width" onClick={() => uploadRef.current?.click()}><Upload size={16}/> {content.image ? "Zameni sliku" : "Umetni sliku"}</button>{content.image && <button className="text-button danger" onClick={() => update("image","")}><X size={14}/> Ukloni sliku</button>}<div className="field-help">Slika je trenutno samo za lokalni pregled. Kasnije ćemo povezati trajno skladištenje.</div></div>
         : <div className="inspector-content"><label className="field-label" htmlFor="selected-value">{fields.find(f => f.key === selected)?.label || "Tekst"}</label>{selected === "description" ? <textarea id="selected-value" value={content[selected]} onChange={e => update(selected,e.target.value)} rows={5}/> : <input id="selected-value" value={content[selected] || ""} onChange={e => update(selected,e.target.value)}/>}<div className="field-help">Izmene se prikazuju odmah u pregledu. Sačuvaj nacrt kada budeš zadovoljna.</div><div className="inspector-divider"/><label className="field-label">Stanje elementa</label><div className="status-card"><Check size={16}/><span>Izmena je ograničena na izabrani element.</span></div></div>}
-        <div className="right-bottom"><div className="security-card"><div className="security-icon"><Eye size={17}/></div><div><strong>Bezbedno uređivanje</strong><p>Objavljeni sajt nije povezan sa ovim prototipom.</p></div></div><button className="button button-primary full-width" onClick={saveDraft}><Save size={16}/> Sačuvaj nacrt</button>{saveNotice && <div className="status-card save-confirmation"><Check size={16}/><span>{saveNotice}</span></div>}{error && <p className="error-message">{error}</p>}<div className="publish-note"><span className="note-dot"/> Objavljivanje nije uključeno u prototip.</div></div>
+        <div className="right-bottom"><div className="security-card"><div className="security-icon"><Eye size={17}/></div><div><strong>Bezbedno uređivanje</strong><p>Objavljeni sajt nije povezan sa ovim prototipom.</p></div></div><button className="button button-primary full-width" onClick={saveDraft} disabled={saving}><Save size={16}/> {saving ? "Čuvanje…" : "Sačuvaj nacrt"}</button>{saveNotice && <div className="status-card save-confirmation"><Check size={16}/><span>{saveNotice}</span></div>}{error && <p className="error-message">{error}</p>}<div className="publish-note"><span className="note-dot"/> Objavljivanje nije uključeno u prototip.</div></div>
       </aside>
     </div>
   </div>;

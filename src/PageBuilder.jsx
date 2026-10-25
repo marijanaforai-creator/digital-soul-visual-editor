@@ -2,23 +2,11 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDown, ArrowUp, Copy, Download, Eye, EyeOff, FilePlus2, GripVertical, ImagePlus, Monitor, Pencil, Plus, Redo2, Save, Smartphone, Tablet, Trash2, Undo2, Upload } from "lucide-react";
 import { BLOCK_PROPERTY_FIELDS, BLOCK_TYPES, changeBlockType, findSelectedBlock, makeBlock, makePage, makeProject, uid, updatePageBlock, validateProject } from "./builderModel.js";
 import "./builder.css";
+import { openEditorDatabase } from "./editorDatabase.js";
 
-const DB_NAME = "digital-soul-editor-storage";
 const PROJECT_KEY = "digital-soul-page-builder-v1";
-function openDB() {
-  return new Promise((resolve, reject) => {
-    const req = indexedDB.open(DB_NAME, 2);
-    req.onupgradeneeded = () => {
-      const db = req.result;
-      if (!db.objectStoreNames.contains("drafts")) db.createObjectStore("drafts");
-      if (!db.objectStoreNames.contains("builder-media")) db.createObjectStore("builder-media");
-    };
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
-  });
-}
 async function dbRequest(store, mode, action) {
-  const db = await openDB();
+  const db = await openEditorDatabase();
   return new Promise((resolve, reject) => {
     const tx = db.transaction(store, mode);
     const req = action(tx.objectStore(store));
