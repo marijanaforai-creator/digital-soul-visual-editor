@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Check, Eye, ImagePlus, LayoutTemplate, Monitor, Pencil, Save, Smartphone, Tablet, Type, Undo2, Upload, X } from "lucide-react";
+import PageBuilder from "./PageBuilder.jsx";
 
 const initial = {
   brand: "Marijana Digital Soul",
@@ -60,6 +61,7 @@ export default function App() {
   const [editing, setEditing] = useState(true);
   const [device, setDevice] = useState("desktop");
   const [activePage, setActivePage] = useState("home");
+  const [builderMode, setBuilderMode] = useState(false);
   const [status, setStatus] = useState("Novi nacrt");
   const [error, setError] = useState("");
   const [saveNotice, setSaveNotice] = useState("");
@@ -97,6 +99,8 @@ export default function App() {
     })();
     return () => { active = false; };
   }, []);
+
+  if (builderMode) return <PageBuilder onExit={() => setBuilderMode(false)} />;
 
   const update = (key, value) => {
     setContent(current => ({ ...current, [key]: value }));
@@ -146,7 +150,7 @@ export default function App() {
   return <div className="app-shell">
     <header className="topbar">
       <div className="brand-lockup"><div className="brand-mark">DS</div><div><div className="brand-title">Digital Soul</div><div className="brand-subtitle">VIZUELNI EDITOR · PROTOTIP</div></div></div>
-      <div className="top-actions"><span className={`save-state ${dirty ? "dirty" : ""}`}><span className="state-dot"/>{dirty ? "Nesačuvane izmene" : status}</span><button className="button button-quiet" onClick={discard}><Undo2 size={16}/> Vrati</button><button className="button button-primary" onClick={saveDraft}><Save size={16}/> Sačuvaj nacrt</button></div>
+      <div className="top-actions"><span className={`save-state ${dirty ? "dirty" : ""}`}><span className="state-dot"/>{dirty ? "Nesačuvane izmene" : status}</span><button className="button button-quiet" onClick={discard}><Undo2 size={16}/> Vrati</button><button className="button button-primary" onClick={saveDraft}><Save size={16}/> Sačuvaj nacrt</button><button className="button button-quiet" onClick={() => setBuilderMode(true)}><LayoutTemplate size={16}/> Page builder</button></div>
     </header>
     <div className="workspace">
       <aside className="left-panel">
