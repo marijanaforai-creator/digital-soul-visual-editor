@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { BLOCK_TYPES, findSelectedBlock, makeBlock, makeProject, updatePageBlock, validateProject } from "./builderModel.js";
+import { BLOCK_PROPERTY_FIELDS, BLOCK_TYPES, changeBlockType, findSelectedBlock, makeBlock, makeProject, updatePageBlock, validateProject } from "./builderModel.js";
 
 test("starter project has ten named, separately identified pages", () => {
   const project = makeProject();
@@ -79,6 +79,53 @@ test("all block types expose their own content and style through the selected id
     assert.equal(selected.content.title, block.content.title);
     assert.equal(selected.style.background, block.style.background);
   }
+});
+
+test("inspector field mapping explicitly covers every supported block type", () => {
+  assert.deepEqual(Object.keys(BLOCK_PROPERTY_FIELDS).sort(), BLOCK_TYPES.map(([type]) => type).sort());
+  assert.deepEqual(BLOCK_PROPERTY_FIELDS.heading, ["title", "subtitle"]);
+  assert.deepEqual(BLOCK_PROPERTY_FIELDS.image, ["image"]);
+  assert.ok(BLOCK_PROPERTY_FIELDS.columns.includes("columns"));
+  assert.ok(BLOCK_PROPERTY_FIELDS.hero.includes("button"));
+  assert.ok(!BLOCK_PROPERTY_FIELDS.heading.includes("image"));
+});
+
+test("changing block type preserves only fields supported by both types", () => {
+  const hero = makeBlock("hero");
+  hero.content.title = "Sačuvani naslov";
+  hero.content.subtitle = "Sačuvani podnaslov";
+  hero.content.body = "Ovaj sadržaj nije podržan u heading bloku";
+  hero.content.buttonText = "CTA";
+  hero.content.imageId = "media-1";
+  hero.content.alt = "Alt tekst";
+  hero.content.aspectRatio = "1 / 1";
+
+  const heading = changeBlockType(hero, "heading");
+  assert.equal(heading.id, hero.id);
+  assert.equal(heading.type, "heading");
+  assert.equal(heading.content.title, "Sačuvani naslov");
+  assert.equal(heading.content.subtitle, "Sačuvani podnaslov");
+  assert.equal(heading.content.body, makeBlock("heading").content.body);
+  assert.equal(heading.content.buttonText, makeBlock("heading").content.buttonText);
+  assert.equal(heading.content.imageId, "");
+  assert.equal(heading.content.alt, "");
+  assert.equal(heading.content.aspectRatio, "16 / 9");
+  assert.equal(heading.style, hero.style);
+});
+
+test("image aspect ratio survives project validation and JSON round trip", () => {
+  const project = makeProject();
+  const block = project.pages[0].blocks[0];
+  block.content.imageId = "media-1";
+  block.content.aspectRatio = "4 / 3";
+  project.media = [{ id: "media-1", name: "test.png", type: "image/png", dataUrl: "data:image/png;base64,iVBORw0KGgo=" }];
+
+  const parsed = validateProject(JSON.parse(JSON.stringify(project)));
+  assert.equal(parsed.schemaVersion, project.schemaVersion);
+  assert.equal(parsed.pages[0].id, project.pages[0].id);
+  assert.equal(parsed.pages[0].blocks[0].id, block.id);
+  assert.equal(parsed.pages[0].blocks[0].content.imageId, "media-1");
+  assert.equal(parsed.pages[0].blocks[0].content.aspectRatio, "4 / 3");
 });
 
 test("updating a block merges its content and style without changing another block or its id", () => {

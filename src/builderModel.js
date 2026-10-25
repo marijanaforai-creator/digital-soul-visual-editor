@@ -11,13 +11,32 @@ export const BLOCK_TYPES = [
   ["resources", "Besplatni resursi"], ["contact", "Kontakt forma"], ["faq", "Česta pitanja"], ["custom", "Prazan / prilagođeni blok"]
 ];
 
+export const BLOCK_PROPERTY_FIELDS = {
+  hero: ["title", "subtitle", "body", "button", "image"],
+  heading: ["title", "subtitle"],
+  text: ["title", "body"],
+  image: ["image"],
+  imageText: ["title", "body", "image"],
+  columns: ["title", "body", "columns"],
+  products: ["title", "body", "image"],
+  categories: ["title", "body", "image"],
+  gallery: ["title", "image"],
+  cta: ["title", "body", "button"],
+  buttons: ["title", "body", "button"],
+  blog: ["title", "body", "image"],
+  resources: ["title", "body", "image"],
+  contact: ["title", "body"],
+  faq: ["title", "subtitle", "body"],
+  custom: ["title", "subtitle", "body", "button", "image"]
+};
+
 export const uid = () => globalThis.crypto?.randomUUID?.() || `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
 export function makeBlock(type = "text") {
   const label = BLOCK_TYPES.find(([key]) => key === type)?.[1] || "Prilagođeni blok";
   return {
     id: uid(), type,
-    content: { title: label, subtitle: "Dodaj kratak podnaslov", body: "Klikni da uneseš tekst koji želiš da prikažeš na stranici.", buttonText: "Saznaj više", buttonLink: "", imageId: "", alt: "", columns: 2 },
+    content: { title: label, subtitle: "Dodaj kratak podnaslov", body: "Klikni da uneseš tekst koji želiš da prikažeš na stranici.", buttonText: "Saznaj više", buttonLink: "", imageId: "", alt: "", aspectRatio: "16 / 9", columns: 2 },
     style: { background: "#f7f3eb", color: "#30243b", width: "wide", align: "left", spacing: 32, padding: 28, radius: 16, fontSize: 16, hiddenDesktop: false, hiddenTablet: false, hiddenMobile: false }
   };
 }
@@ -46,6 +65,30 @@ export function updatePageBlock(page, blockId, patch) {
     };
   });
   return updated ? { ...page, blocks } : page;
+}
+
+export function changeBlockType(block, type) {
+  if (!BLOCK_PROPERTY_FIELDS[type]) return block;
+  const defaults = makeBlock(type);
+  const previousFields = BLOCK_PROPERTY_FIELDS[block.type] || [];
+  const nextFields = BLOCK_PROPERTY_FIELDS[type];
+  const content = { ...defaults.content };
+  for (const field of nextFields) {
+    if (!previousFields.includes(field)) continue;
+    if (field === "button") {
+      content.buttonText = block.content.buttonText;
+      content.buttonLink = block.content.buttonLink;
+    } else if (field === "image") {
+      content.imageId = block.content.imageId;
+      content.alt = block.content.alt;
+      content.aspectRatio = block.content.aspectRatio || defaults.content.aspectRatio;
+    } else if (field === "columns") {
+      content.columns = block.content.columns;
+    } else {
+      content[field] = block.content[field];
+    }
+  }
+  return { ...block, type, content };
 }
 
 export function makeProject() {

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDown, ArrowUp, Copy, Download, Eye, EyeOff, FilePlus2, GripVertical, ImagePlus, Monitor, Pencil, Plus, Redo2, Save, Smartphone, Tablet, Trash2, Undo2, Upload } from "lucide-react";
-import { BLOCK_TYPES, findSelectedBlock, makeBlock, makePage, makeProject, uid, updatePageBlock, validateProject } from "./builderModel.js";
+import { BLOCK_PROPERTY_FIELDS, BLOCK_TYPES, changeBlockType, findSelectedBlock, makeBlock, makePage, makeProject, uid, updatePageBlock, validateProject } from "./builderModel.js";
 import "./builder.css";
 
 const DB_NAME = "digital-soul-editor-storage";
@@ -85,6 +85,8 @@ export default function PageBuilder({ onExit }) {
   const history = useRef({ undo: [], redo: [], current: "" });
   const activePage = project.pages.find(p => p.id === project.activePageId) || project.pages[0];
   const selectedBlock = findSelectedBlock(activePage, selectedBlockId);
+  const selectedProperties = BLOCK_PROPERTY_FIELDS[selectedBlock?.type] || [];
+  const supportsSelectedProperty = property => selectedProperties.includes(property);
   const dirtySnapshot = JSON.stringify(project);
 
   useEffect(() => {
@@ -162,7 +164,12 @@ export default function PageBuilder({ onExit }) {
       }
       if (!uploaded.length) return;
       const last = uploaded[uploaded.length - 1];
-      commit(current => ({ ...current, media: [...current.media, ...uploaded.map(item => item.meta)], pages: current.pages.map(page => page.id === activePage.id ? { ...page, blocks: page.blocks.map(block => block.id === selectedBlockId ? { ...block, content: { ...block.content, imageId: last.id, alt: block.content.alt || last.file.name.replace(/\.[^.]+$/, "") } } : block) } : page) }));
+      const attachToSelectedBlock = selectedBlock && supportsSelectedProperty("image");
+      commit(current => ({
+        ...current,
+        media: [...current.media, ...uploaded.map(item => item.meta)],
+        pages: attachToSelectedBlock ? current.pages.map(page => page.id === current.activePageId ? { ...page, blocks: page.blocks.map(block => block.id === selectedBlockId ? { ...block, content: { ...block.content, imageId: last.id, alt: block.content.alt || last.file.name.replace(/\.[^.]+$/, "") } } : block) } : page) : current.pages
+      }));
       setMediaUrls(current => ({ ...current, ...Object.fromEntries(uploaded.map(({ id, file }) => [id, URL.createObjectURL(file)])) }));
     } catch (e) { setError(e.message || "Slika nije mogla da se doda u biblioteku."); }
   }
@@ -216,7 +223,7 @@ export default function PageBuilder({ onExit }) {
         <div className="builder-block-library">{BLOCK_TYPES.map(([type, label]) => <button key={type} onClick={() => addBlock(type)}><Plus size={13}/>{label}</button>)}</div>
         <div className="builder-divider"/><div className="builder-panel-title"><span className="panel-kicker">BIBLIOTEKA MEDIJA</span><button className="builder-icon-button" aria-label="Dodaj sliku u biblioteku" onClick={() => uploadRef.current?.click()}><Upload size={15}/></button></div>
         <input ref={uploadRef} type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple hidden onChange={uploadMedia}/><button className="builder-add-page" onClick={() => uploadRef.current?.click()}><ImagePlus size={15}/> Učitaj sliku · do 5 MB</button>
-        <div className="builder-media-list">{project.media.length ? project.media.map(item => <div className="builder-media-item" key={item.id}><button onClick={() => selectedBlock && updateBlock(selectedBlock.id, { content: { imageId: item.id, alt: item.alt || item.name.replace(/\.[^.]+$/, "") } })}><img src={mediaUrls[item.id] || ""} alt=""/><span>{item.name}</span></button><button aria-label={`Ukloni ${item.name}`} onClick={() => removeMedia(item)}><Trash2 size={13}/></button></div>) : <p className="builder-muted">Slike ostaju lokalno u IndexedDB pregledača.</p>}</div>
+        <div className="builder-media-list">{project.media.length ? project.media.map(item => <div className="builder-media-item" key={item.id}><button disabled={!supportsSelectedProperty("image")} title={supportsSelectedProperty("image") ? "Izaberi ovu sliku za blok" : "Izaberi blok koji podržava sliku"} onClick={() => selectedBlock && updateBlock(selectedBlock.id, { content: { imageId: item.id, alt: item.alt || item.name.replace(/\.[^.]+$/, "") } })}><img src={mediaUrls[item.id] || ""} alt=""/><span>{item.name}</span></button><button aria-label={`Ukloni ${item.name}`} onClick={() => removeMedia(item)}><Trash2 size={13}/></button></div>) : <p className="builder-muted">Slike ostaju lokalno u IndexedDB pregledača.</p>}</div>
         <button className="builder-add-page" onClick={() => importRef.current?.click()}><Upload size={15}/> Uvezi JSON</button><input ref={importRef} type="file" accept="application/json,.json" hidden onChange={importProject}/>
       </aside>
       <main className="builder-main">
@@ -229,19 +236,24 @@ export default function PageBuilder({ onExit }) {
         </div>
         <div className="builder-publish-note">Nacrt i mediji se čuvaju samo u ovom pregledaču i na ovom uređaju. Pregled i JSON izvoz rade lokalno. Objavljivanje i linkovanje sa mindstru.site nisu povezani.</div>
       </main>
-      <aside className="builder-inspector"><div className="builder-panel-title"><div><span className="panel-kicker">SVOJSTVA</span><h2>{selectedBlock ? "Uredi blok" : "Izaberi blok"}</h2></div></div>
+      <aside className="builder-inspector"><div className="builder-panel-title"><div><span className="panel-kicker">{selectedBlock ? "SVOJSTVA BLOKA" : "SVOJSTVA"}</span><h2>{selectedBlock ? BLOCK_TYPES.find(([type]) => type === selectedBlock.type)?.[1] || "Blok" : "Izaberi blok"}</h2></div></div>
         {selectedBlock ? <div className="builder-properties">
-          <label className="builder-field-label">Tip bloka<select value={selectedBlock.type} onChange={e => updateBlock(selectedBlock.id, { type: e.target.value })}>{BLOCK_TYPES.map(([type, label]) => <option value={type} key={type}>{label}</option>)}</select></label>
-          <label className="builder-field-label">Naslov<input value={selectedBlock.content.title} onChange={e => updateBlock(selectedBlock.id, { content: { title: e.target.value } })}/></label>
-          <label className="builder-field-label">Podnaslov<input value={selectedBlock.content.subtitle} onChange={e => updateBlock(selectedBlock.id, { content: { subtitle: e.target.value } })}/></label>
-          <label className="builder-field-label">Tekst<textarea rows={4} value={selectedBlock.content.body} onChange={e => updateBlock(selectedBlock.id, { content: { body: e.target.value } })}/></label>
-          <label className="builder-field-label">Tekst dugmeta<input value={selectedBlock.content.buttonText} onChange={e => updateBlock(selectedBlock.id, { content: { buttonText: e.target.value } })}/></label>
-          <label className="builder-field-label">Odredište dugmeta<select value={selectedBlock.content.buttonLink.startsWith("page:") || selectedBlock.content.buttonLink.startsWith("#") ? selectedBlock.content.buttonLink : selectedBlock.content.buttonLink ? "__url__" : ""} onChange={e => updateBlock(selectedBlock.id, { content: { buttonLink: e.target.value === "__url__" ? "https://" : e.target.value } })}><option value="">Nije povezano</option><optgroup label="Stranice projekta">{project.pages.map(page => <option key={page.id} value={`page:${page.id}`}>{page.title}</option>)}</optgroup><optgroup label="Sekcije ove stranice">{activePage.blocks.filter(block => block.id !== selectedBlock.id).map((block, index) => <option key={block.id} value={`#${block.id}`}>{BLOCK_TYPES.find(([type]) => type === block.type)?.[1]} · {index + 1}</option>)}</optgroup><option value="__url__">Eksterni URL…</option></select></label>
-          {(selectedBlock.content.buttonLink.startsWith("http") || selectedBlock.content.buttonLink === "https://") && <label className="builder-field-label">Eksterni URL<input placeholder="https://primer.rs" value={selectedBlock.content.buttonLink} onChange={e => updateBlock(selectedBlock.id, { content: { buttonLink: e.target.value } })}/></label>}
-          {selectedBlock.content.buttonLink && !safeHref(selectedBlock.content.buttonLink) && <p className="builder-error">Unesi URL koji počinje sa https://, http://, mailto:, tel: ili #.</p>}
-          <label className="builder-field-label">Fotografija<select value={selectedBlock.content.imageId} onChange={e => updateBlock(selectedBlock.id, { content: { imageId: e.target.value } })}><option value="">Bez fotografije</option>{project.media.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
-          <label className="builder-field-label">Alternativni tekst<input value={selectedBlock.content.alt} onChange={e => updateBlock(selectedBlock.id, { content: { alt: e.target.value } })}/></label>
-          <label className="builder-field-label">Odnos stranica slike<select value={selectedBlock.content.aspectRatio || "16 / 9"} onChange={e => updateBlock(selectedBlock.id, { content: { aspectRatio: e.target.value } })}><option value="16 / 9">16:9 · široka</option><option value="4 / 3">4:3</option><option value="1 / 1">1:1 · kvadrat</option><option value="3 / 4">3:4 · portret</option><option value="auto">Originalni odnos</option></select></label>
+          <label className="builder-field-label">Tip bloka<select value={selectedBlock.type} onChange={e => updateBlock(selectedBlock.id, changeBlockType(selectedBlock, e.target.value))}>{BLOCK_TYPES.map(([type, label]) => <option value={type} key={type}>{label}</option>)}</select></label>
+          {supportsSelectedProperty("title") && <label className="builder-field-label">Naslov<input value={selectedBlock.content.title} onChange={e => updateBlock(selectedBlock.id, { content: { title: e.target.value } })}/></label>}
+          {supportsSelectedProperty("subtitle") && <label className="builder-field-label">Podnaslov<input value={selectedBlock.content.subtitle} onChange={e => updateBlock(selectedBlock.id, { content: { subtitle: e.target.value } })}/></label>}
+          {supportsSelectedProperty("body") && <label className="builder-field-label">{selectedBlock.type === "hero" ? "Opis" : "Tekst"}<textarea rows={4} value={selectedBlock.content.body} onChange={e => updateBlock(selectedBlock.id, { content: { body: e.target.value } })}/></label>}
+          {supportsSelectedProperty("columns") && <label className="builder-field-label">Broj kolona<select value={selectedBlock.content.columns} onChange={e => updateBlock(selectedBlock.id, { content: { columns: Number(e.target.value) } })}><option value={2}>Dve kolone</option><option value={3}>Tri kolone</option></select></label>}
+          {supportsSelectedProperty("button") && <>
+            <label className="builder-field-label">Tekst dugmeta<input value={selectedBlock.content.buttonText} onChange={e => updateBlock(selectedBlock.id, { content: { buttonText: e.target.value } })}/></label>
+            <label className="builder-field-label">Odredište dugmeta<select value={selectedBlock.content.buttonLink.startsWith("page:") || selectedBlock.content.buttonLink.startsWith("#") ? selectedBlock.content.buttonLink : selectedBlock.content.buttonLink ? "__url__" : ""} onChange={e => updateBlock(selectedBlock.id, { content: { buttonLink: e.target.value === "__url__" ? "https://" : e.target.value } })}><option value="">Nije povezano</option><optgroup label="Stranice projekta">{project.pages.map(page => <option key={page.id} value={`page:${page.id}`}>{page.title}</option>)}</optgroup><optgroup label="Sekcije ove stranice">{activePage.blocks.filter(block => block.id !== selectedBlock.id).map((block, index) => <option key={block.id} value={`#${block.id}`}>{BLOCK_TYPES.find(([type]) => type === block.type)?.[1]} · {index + 1}</option>)}</optgroup><option value="__url__">Eksterni URL…</option></select></label>
+            {(selectedBlock.content.buttonLink.startsWith("http") || selectedBlock.content.buttonLink === "https://") && <label className="builder-field-label">Eksterni URL<input placeholder="https://primer.rs" value={selectedBlock.content.buttonLink} onChange={e => updateBlock(selectedBlock.id, { content: { buttonLink: e.target.value } })}/></label>}
+            {selectedBlock.content.buttonLink && !safeHref(selectedBlock.content.buttonLink) && <p className="builder-error">Unesi URL koji počinje sa https://, http://, mailto:, tel: ili #.</p>}
+          </>}
+          {supportsSelectedProperty("image") && <>
+            <label className="builder-field-label">Fotografija<select value={selectedBlock.content.imageId} onChange={e => updateBlock(selectedBlock.id, { content: { imageId: e.target.value } })}><option value="">Bez fotografije</option>{project.media.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label>
+            <label className="builder-field-label">Alternativni tekst<input value={selectedBlock.content.alt} onChange={e => updateBlock(selectedBlock.id, { content: { alt: e.target.value } })}/></label>
+            <label className="builder-field-label">Odnos stranica slike<select value={selectedBlock.content.aspectRatio || "16 / 9"} onChange={e => updateBlock(selectedBlock.id, { content: { aspectRatio: e.target.value } })}><option value="16 / 9">16:9 · široka</option><option value="4 / 3">4:3</option><option value="1 / 1">1:1 · kvadrat</option><option value="3 / 4">3:4 · portret</option><option value="auto">Originalni odnos</option></select></label>
+          </>}
           <div className="builder-field-grid"><label className="builder-field-label">Širina<select value={selectedBlock.style.width} onChange={e => updateBlock(selectedBlock.id, { style: { width: e.target.value } })}><option value="narrow">Uska</option><option value="wide">Široka</option><option value="full">Puna</option></select></label><label className="builder-field-label">Poravnanje<select value={selectedBlock.style.align} onChange={e => updateBlock(selectedBlock.id, { style: { align: e.target.value } })}><option value="left">Levo</option><option value="center">Centar</option><option value="right">Desno</option></select></label></div>
           <div className="builder-field-grid"><label className="builder-field-label">Pozadina<input type="color" value={selectedBlock.style.background} onChange={e => updateBlock(selectedBlock.id, { style: { background: e.target.value } })}/></label><label className="builder-field-label">Boja teksta<input type="color" value={selectedBlock.style.color} onChange={e => updateBlock(selectedBlock.id, { style: { color: e.target.value } })}/></label></div>
           <label className="builder-field-label">Veličina fonta · {selectedBlock.style.fontSize}px<input type="range" min="12" max="48" value={selectedBlock.style.fontSize} onChange={e => updateBlock(selectedBlock.id, { style: { fontSize: Number(e.target.value) } })}/></label>
@@ -249,7 +261,7 @@ export default function PageBuilder({ onExit }) {
           <label className="builder-field-label">Unutrašnji razmak · {selectedBlock.style.padding}px<input type="range" min="0" max="80" step="4" value={selectedBlock.style.padding} onChange={e => updateBlock(selectedBlock.id, { style: { padding: Number(e.target.value) } })}/></label>
           <label className="builder-field-label">Zaobljenje · {selectedBlock.style.radius}px<input type="range" min="0" max="40" value={selectedBlock.style.radius} onChange={e => updateBlock(selectedBlock.id, { style: { radius: Number(e.target.value) } })}/></label>
           <div className="builder-device-checks"><span>Vidljivost</span>{[["Desktop", "hiddenDesktop"], ["Tablet", "hiddenTablet"], ["Telefon", "hiddenMobile"]].map(([label, key]) => <label key={key}><input type="checkbox" checked={!selectedBlock.style[key]} onChange={e => updateBlock(selectedBlock.id, { style: { [key]: !e.target.checked } })}/>{label}</label>)}</div>
-        </div> : <p className="builder-muted">Klikni blok u pregledu da izmeniš tekst, sliku i dizajn.</p>}
+        </div> : <p className="builder-muted">Izaberi blok na platnu da vidiš njegova svojstva.</p>}
         <div className="builder-inspector-bottom"><strong>Ograničenja prototipa</strong><p>Linkovi su prikazni dok ne izabereš validan URL. Kontakt forma ne šalje podatke. Objavljivanje nije povezano.</p></div>
       </aside>
     </div>
