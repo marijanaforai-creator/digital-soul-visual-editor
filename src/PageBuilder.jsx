@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDown, ArrowUp, Copy, Download, Eye, EyeOff, FilePlus2, GripVertical, ImagePlus, Monitor, Pencil, Plus, Redo2, Save, Smartphone, Tablet, Trash2, Undo2, Upload } from "lucide-react";
-import { BLOCK_TYPES, findSelectedBlock, makeBlock, makePage, makeProject, uid, validateProject } from "./builderModel.js";
+import { BLOCK_TYPES, findSelectedBlock, makeBlock, makePage, makeProject, uid, updatePageBlock, validateProject } from "./builderModel.js";
 import "./builder.css";
 
 const DB_NAME = "digital-soul-editor-storage";
@@ -64,7 +64,7 @@ function BlockContent({ block, imageUrl, onSelect, onNavigate, selected, editing
     default: inner = <>{titleElement}{bodyElement}</>;
   }
   const label = BLOCK_TYPES.find(([type]) => type === block.type)?.[1] || "Blok";
-  return <section className={`builder-block ${selected.id && editing ? "builder-block-selected" : ""}`} aria-label={`${label}. Klikni za izbor i uređivanje.`} tabIndex={editing ? 0 : undefined} style={{ ...common, display: (selected.device === "Desktop" && style.hiddenDesktop) || (selected.device === "Tablet" && style.hiddenTablet) || (selected.device === "Mobile" && style.hiddenMobile) ? "none" : undefined }} onClick={e => { e.stopPropagation(); onSelect(block.id); }} onKeyDown={event => { if (editing && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); onSelect(block.id); } }}>
+  return <section className={`builder-block ${selected.id ? "builder-block-selected" : ""}`} aria-label={`${label}. Klikni za izbor i uređivanje.`} tabIndex={editing ? 0 : undefined} style={{ ...common, display: (selected.device === "Desktop" && style.hiddenDesktop) || (selected.device === "Tablet" && style.hiddenTablet) || (selected.device === "Mobile" && style.hiddenMobile) ? "none" : undefined }} onClick={e => { e.stopPropagation(); onSelect(block.id); }} onKeyDown={event => { if (editing && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); onSelect(block.id); } }}>
     {editing && <div className="builder-block-label"><GripVertical size={13} />{BLOCK_TYPES.find(([type]) => type === block.type)?.[1]}</div>}{inner}
   </section>;
 }
@@ -137,7 +137,7 @@ export default function PageBuilder({ onExit }) {
     setProject(parsed); setError("");
   }
   const updatePage = (id, patch) => commit(current => ({ ...current, pages: current.pages.map(page => page.id === id ? { ...page, ...patch } : page) }));
-  const updateBlock = (id, patch) => commit(current => ({ ...current, pages: current.pages.map(page => page.id === current.activePageId ? { ...page, blocks: page.blocks.map(block => block.id === id ? { ...block, ...patch, content: { ...block.content, ...(patch.content || {}) }, style: { ...block.style, ...(patch.style || {}) } } : block) } : page) }));
+  const updateBlock = (id, patch) => commit(current => ({ ...current, pages: current.pages.map(page => page.id === current.activePageId ? updatePageBlock(page, id, patch) : page) }));
   const imageForBlock = block => mediaUrls[block.content.imageId] || "";
   async function save() { setError(""); setStatus("Čuvanje…"); try { await putProject(project); setStatus("Sačuvano u ovom pregledaču"); } catch { setStatus("Greška pri čuvanju"); setError("Nacrt nije sačuvan. Pregledaj slobodan prostor u pregledaču."); } }
   function addPage() { const page = makePage("Nova stranica"); commit(current => ({ ...current, pages: [...current.pages, page], activePageId: page.id })); setSelectedBlockId(page.blocks[0].id); }

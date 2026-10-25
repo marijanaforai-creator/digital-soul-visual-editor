@@ -33,6 +33,21 @@ export function findSelectedBlock(page, blockId) {
   return page?.blocks?.find(block => block.id === blockId) || null;
 }
 
+export function updatePageBlock(page, blockId, patch) {
+  let updated = false;
+  const blocks = page.blocks.map(block => {
+    if (block.id !== blockId) return block;
+    updated = true;
+    return {
+      ...block,
+      ...patch,
+      content: { ...block.content, ...(patch.content || {}) },
+      style: { ...block.style, ...(patch.style || {}) }
+    };
+  });
+  return updated ? { ...page, blocks } : page;
+}
+
 export function makeProject() {
   const pages = PAGE_TITLES.map((title, i) => ({ ...makePage(title), isHome: i === 0, implementation: [0, 1, 2, 3, 4].includes(i) ? "prototype" : "planned" }));
   return { schemaVersion: 1, title: "Digital Soul", pages, activePageId: pages[0].id, media: [] };
