@@ -29,6 +29,10 @@ export function makePage(title = "Nova stranica") {
   return { id: uid(), title, isHome: false, blocks: [hero], implementation: "draft" };
 }
 
+export function findSelectedBlock(page, blockId) {
+  return page?.blocks?.find(block => block.id === blockId) || null;
+}
+
 export function makeProject() {
   const pages = PAGE_TITLES.map((title, i) => ({ ...makePage(title), isHome: i === 0, implementation: [0, 1, 2, 3, 4].includes(i) ? "prototype" : "planned" }));
   return { schemaVersion: 1, title: "Digital Soul", pages, activePageId: pages[0].id, media: [] };

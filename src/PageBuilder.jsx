@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDown, ArrowUp, Copy, Download, Eye, EyeOff, FilePlus2, GripVertical, ImagePlus, Monitor, Pencil, Plus, Redo2, Save, Smartphone, Tablet, Trash2, Undo2, Upload } from "lucide-react";
-import { BLOCK_TYPES, makeBlock, makePage, makeProject, uid, validateProject } from "./builderModel.js";
+import { BLOCK_TYPES, findSelectedBlock, makeBlock, makePage, makeProject, uid, validateProject } from "./builderModel.js";
 import "./builder.css";
 
 const DB_NAME = "digital-soul-editor-storage";
@@ -47,7 +47,7 @@ function BlockContent({ block, imageUrl, onSelect, onNavigate, selected, editing
   const titleElement = <h2>{title || "Naslov bloka"}</h2>;
   const bodyElement = <p>{body || "Dodaj tekst u svojstva bloka."}</p>;
   const image = imageUrl ? <img src={imageUrl} alt={alt || ""} style={{ width: "100%", maxHeight: 380, objectFit: "cover", aspectRatio: block.content.aspectRatio || "16 / 9", display: "block" }} /> : <div className="builder-image-empty"><ImagePlus size={25} /><span>Izaberi sliku u svojstvima</span></div>;
-  const action = buttonText ? <a className="builder-cta" href={buttonLink.startsWith("http") && safeHref(buttonLink) ? buttonLink : buttonLink.startsWith("#") && safeHref(buttonLink) ? buttonLink : undefined} target={buttonLink.startsWith("http") ? "_blank" : undefined} rel={buttonLink.startsWith("http") ? "noopener noreferrer" : undefined} onClick={event => { if (buttonLink.startsWith("page:") || buttonLink.startsWith("#")) { event.preventDefault(); if (safeHref(buttonLink)) onNavigate(buttonLink); } else if (!safeHref(buttonLink)) event.preventDefault(); }}>{buttonText}</a> : null;
+  const action = buttonText ? <a className="builder-cta" href={buttonLink.startsWith("http") && safeHref(buttonLink) ? buttonLink : buttonLink.startsWith("#") && safeHref(buttonLink) ? buttonLink : undefined} target={buttonLink.startsWith("http") ? "_blank" : undefined} rel={buttonLink.startsWith("http") ? "noopener noreferrer" : undefined} onClick={event => { event.stopPropagation(); if (buttonLink.startsWith("page:") || buttonLink.startsWith("#")) { event.preventDefault(); if (safeHref(buttonLink)) onNavigate(buttonLink); } else if (!safeHref(buttonLink)) event.preventDefault(); }}>{buttonText}</a> : null;
   let inner;
   switch (block.type) {
     case "hero": inner = <>{<span className="builder-eyebrow">DIGITAL SOUL · NACRT</span>}{titleElement}<p className="builder-subtitle">{subtitle}</p>{bodyElement}{action}</>; break;
@@ -63,7 +63,8 @@ function BlockContent({ block, imageUrl, onSelect, onNavigate, selected, editing
     case "text": inner = <>{titleElement}{bodyElement}</>; break;
     default: inner = <>{titleElement}{bodyElement}</>;
   }
-  return <section className={`builder-block ${selected.id && editing ? "builder-block-selected" : ""}`} style={{ ...common, display: (selected.device === "Desktop" && style.hiddenDesktop) || (selected.device === "Tablet" && style.hiddenTablet) || (selected.device === "Mobile" && style.hiddenMobile) ? "none" : undefined }} onClick={e => { e.stopPropagation(); onSelect(block.id); }}>
+  const label = BLOCK_TYPES.find(([type]) => type === block.type)?.[1] || "Blok";
+  return <section className={`builder-block ${selected.id && editing ? "builder-block-selected" : ""}`} aria-label={`${label}. Klikni za izbor i uređivanje.`} tabIndex={editing ? 0 : undefined} style={{ ...common, display: (selected.device === "Desktop" && style.hiddenDesktop) || (selected.device === "Tablet" && style.hiddenTablet) || (selected.device === "Mobile" && style.hiddenMobile) ? "none" : undefined }} onClick={e => { e.stopPropagation(); onSelect(block.id); }} onKeyDown={event => { if (editing && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); onSelect(block.id); } }}>
     {editing && <div className="builder-block-label"><GripVertical size={13} />{BLOCK_TYPES.find(([type]) => type === block.type)?.[1]}</div>}{inner}
   </section>;
 }
@@ -83,7 +84,7 @@ export default function PageBuilder({ onExit }) {
   const uploadRef = useRef(null);
   const history = useRef({ undo: [], redo: [], current: "" });
   const activePage = project.pages.find(p => p.id === project.activePageId) || project.pages[0];
-  const selectedBlock = activePage?.blocks.find(block => block.id === selectedBlockId) || null;
+  const selectedBlock = findSelectedBlock(activePage, selectedBlockId);
   const dirtySnapshot = JSON.stringify(project);
 
   useEffect(() => {
@@ -219,7 +220,7 @@ export default function PageBuilder({ onExit }) {
         <button className="builder-add-page" onClick={() => importRef.current?.click()}><Upload size={15}/> Uvezi JSON</button><input ref={importRef} type="file" accept="application/json,.json" hidden onChange={importProject}/>
       </aside>
       <main className="builder-main">
-        <div className="builder-toolbar"><div><span className="panel-kicker">PREGLED NACRTA</span><h1>{activePage.title || "Nova stranica"}</h1></div><div className="builder-device-switch">{[["Desktop", Monitor], ["Tablet", Tablet], ["Mobile", Smartphone]].map(([name, Icon]) => <button key={name} className={device === name ? "active" : ""} title={name} aria-label={`Pregled ${name}`} onClick={() => setDevice(name)}><Icon size={16}/></button>)}</div><button className={`button ${mode === "preview" ? "button-primary" : "button-quiet"}`} onClick={() => setMode(mode === "edit" ? "preview" : "edit")}>{mode === "edit" ? <><Eye size={15}/> Pregled</> : <><Pencil size={15}/> Uredi</>}</button></div>
+        <div className="builder-toolbar"><div><span className="panel-kicker">NAZIV STRANICE</span><h1>{activePage.title || "Nova stranica"}</h1><span className="builder-toolbar-hint">Klikni blok u platnu da urediš njegov sadržaj.</span></div><div className="builder-device-switch">{[["Desktop", Monitor], ["Tablet", Tablet], ["Mobile", Smartphone]].map(([name, Icon]) => <button key={name} className={device === name ? "active" : ""} title={name} aria-label={`Pregled ${name}`} onClick={() => setDevice(name)}><Icon size={16}/></button>)}</div><button className={`button ${mode === "preview" ? "button-primary" : "button-quiet"}`} onClick={() => setMode(mode === "edit" ? "preview" : "edit")}>{mode === "edit" ? <><Eye size={15}/> Pregled</> : <><Pencil size={15}/> Uredi</>}</button></div>
         <div className={`builder-canvas builder-canvas-${device.toLowerCase()}`}>
           <nav className="builder-site-nav"><strong>Marijana Digital Soul</strong><div>Početna　 AI alati　 Biblioteka rešenja　 Svi proizvodi　 Više</div><span>Linkovi nisu povezani</span></nav>
         <div className="builder-page-canvas">{activePage.blocks.length ? activePage.blocks.map((block, index) => <div className="builder-block-wrap" id={`block-${block.id}`} key={block.id} draggable={mode === "edit"} onDragStart={() => setDragging(block.id)} onDragOver={e => e.preventDefault()} onDrop={() => reorderBlockDrop(block.id)}>

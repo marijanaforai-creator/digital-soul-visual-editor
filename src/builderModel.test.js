@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { BLOCK_TYPES, makeBlock, makeProject, validateProject } from "./builderModel.js";
+import { BLOCK_TYPES, findSelectedBlock, makeBlock, makeProject, validateProject } from "./builderModel.js";
 
 test("starter project has ten named, separately identified pages", () => {
   const project = makeProject();
@@ -54,4 +54,18 @@ test("new blocks get stable ids and independent content values", () => {
   assert.notEqual(first.id, second.id);
   first.content.title = "Promenjen naslov";
   assert.notEqual(first.content.title, second.content.title);
+});
+
+test("selected block id resolves the block and the properties shown by the inspector", () => {
+  const project = makeProject();
+  const page = project.pages[0];
+  const block = page.blocks[0];
+  const selected = findSelectedBlock(page, block.id);
+
+  assert.equal(selected, block);
+  assert.equal(selected.type, "hero");
+  assert.equal(selected.content.title, "Početna");
+  assert.equal(selected.style.width, "wide");
+  assert.equal(findSelectedBlock(project.pages[1], block.id), null);
+  assert.equal(findSelectedBlock(page, "missing-block"), null);
 });
