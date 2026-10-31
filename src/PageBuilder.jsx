@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDown, ArrowUp, Copy, Download, Eye, EyeOff, FilePlus2, GripVertical, ImagePlus, Monitor, Pencil, Plus, Redo2, Save, Smartphone, Tablet, Trash2, Undo2, Upload } from "lucide-react";
 import { BLOCK_PROPERTY_FIELDS, BLOCK_TYPES, changeBlockType, findSelectedBlock, makeBlock, makePage, makeProject, uid, updatePageBlock, validateProject } from "./builderModel.js";
 import "./builder.css";
-import { openEditorDatabase } from "./editorDatabase.js";
+import { openEditorDatabase, writeProjectAndMediaAtomically } from "./editorDatabase.js";
 
 const PROJECT_KEY = "digital-soul-page-builder-v1";
 async function dbRequest(store, mode, action) {
@@ -185,8 +185,12 @@ export default function PageBuilder({ onExit }) {
       const importedBlobs = parsed.media.map(item => ({ item, blob: blobFromDataURL(item.dataUrl) }));
       const importedMedia = importedBlobs.map(({ item, blob }) => ({ id: item.id, name: item.name, type: blob.type, size: blob.size, alt: "" }));
       const { media, ...cleanProject } = parsed;
-      for (const { item, blob } of importedBlobs) await putBlob(item.id, blob);
       const projectValue = { ...cleanProject, media: importedMedia };
+      await writeProjectAndMediaAtomically({
+        project: projectValue,
+        projectKey: PROJECT_KEY,
+        media: importedBlobs.map(({ item, blob }) => ({ id: item.id, blob }))
+      });
       commit(projectValue); setSelectedBlockId(""); setStatus("Uvezeni lokalni nacrt");
     } catch (e) { setError(e.message || "Uvoz projekta nije uspeo."); }
   }

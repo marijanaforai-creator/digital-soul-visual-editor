@@ -18,3 +18,30 @@ export function openEditorDatabase(indexedDBApi = globalThis.indexedDB) {
     request.onerror = () => reject(request.error || new Error("Baza lokalnih nacrta nije mogla da se otvori."));
   });
 }
+
+export async function writeProjectAndMediaAtomically({ project, media, projectKey }, indexedDBApi = globalThis.indexedDB) {
+  const db = await openEditorDatabase(indexedDBApi);
+  return new Promise((resolve, reject) => {
+    let settled = false;
+    const finish = (callback, value) => {
+      if (settled) return;
+      settled = true;
+      db.close();
+      callback(value);
+    };
+
+    let transaction;
+    try {
+      transaction = db.transaction(["drafts", "builder-media"], "readwrite");
+      transaction.oncomplete = () => finish(resolve);
+      transaction.onabort = () => finish(reject, transaction.error || new Error("Uvoz nije sačuvan."));
+      transaction.onerror = () => finish(reject, transaction.error || new Error("Uvoz nije sačuvan."));
+
+      transaction.objectStore("drafts").put(project, projectKey);
+      for (const { id, blob } of media) transaction.objectStore("builder-media").put(blob, id);
+    } catch (error) {
+      try { transaction?.abort(); } catch { /* The transaction may already be inactive. */ }
+      finish(reject, error);
+    }
+  });
+}
