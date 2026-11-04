@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import collaborationPhoto from "../marijana-about-portrait-crop.jpg";
 import { ArrowUpRight, Check, Eye, ImagePlus, LayoutTemplate, Monitor, Pencil, Save, Smartphone, Tablet, Type, Undo2, Upload, X } from "lucide-react";
 
 const initial = {
@@ -256,7 +257,7 @@ export default function App() {
               <div className="collab-note"><span>✧</span><span>Jedno pitanje po koraku · kratko i jednostavno</span></div>
             </div>
             <div className="collab-visual">
-              <img src="/collaboration-photo.webp" alt="Fotografija za individualnu saradnju" />
+              <img src={collaborationPhoto} alt="Fotografija za individualnu saradnju" />
               <div className="collab-visual-caption"><span>MARIJANA DIGITAL SOUL</span><strong>Ideja dobija oblik kada imaš pravi sistem.</strong></div>
             </div>
             <div className="collab-form-card">
