@@ -251,7 +251,7 @@ export default function PageBuilder({ onExit }) {
               {card.buttonLink && !safeHref(card.buttonLink) && <p className="builder-error">Proveri adresu linka.</p>}
             </div>)}
             <button type="button" className="builder-add-card" onClick={() => addCard(selectedBlock.id)}>+ Dodaj karticu</button>
-          </section>
+          </section>}
           {supportsSelectedProperty("button") && <>
             <label className="builder-field-label">Tekst dugmeta<input value={selectedBlock.content.buttonText} onChange={e => updateBlock(selectedBlock.id, { content: { buttonText: e.target.value } })}/></label>
             <label className="builder-field-label">Odredište dugmeta<select value={selectedBlock.content.buttonLink.startsWith("page:") || selectedBlock.content.buttonLink.startsWith("#") ? selectedBlock.content.buttonLink : selectedBlock.content.buttonLink ? "__url__" : ""} onChange={e => updateBlock(selectedBlock.id, { content: { buttonLink: e.target.value === "__url__" ? "https://" : e.target.value } })}><option value="">Nije povezano</option><optgroup label="Stranice projekta">{project.pages.map(page => <option key={page.id} value={`page:${page.id}`}>{page.title}</option>)}</optgroup><optgroup label="Sekcije ove stranice">{activePage.blocks.filter(block => block.id !== selectedBlock.id).map((block, index) => <option key={block.id} value={`#${block.id}`}>{BLOCK_TYPES.find(([type]) => type === block.type)?.[1]} · {index + 1}</option>)}</optgroup><option value="__url__">Eksterni URL…</option></select></label>
