@@ -1,159 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import collaborationPhoto from "../marijana-about-portrait-crop.jpg";
 import { ArrowUpRight, Check, Eye, ImagePlus, LayoutTemplate, Monitor, Pencil, Save, Smartphone, Tablet, Type, Undo2, Upload, X } from "lucide-react";
+
 const initial = {
-  
   brand: "Marijana Digital Soul",
   topTitle: "Biblioteka rešenja",
   topSubtitle: "Digitalni proizvodi, alati i praktična rešenja za lakši, organizovaniji i ispunjeniji život.",
   topQuote: "",
   marketingMockup: "",
-  driveMockup: "",
-  freeGuideImage: "",
-  freeTemplateImage: "",
-  freeChecklistImage: "",
-  freeAIImage: "",
-  // DODAJ OVO:
-  libWomenImage: "",
-  libTeenImage: "",
-  libTemplatesImage: "",
-  libProductsImage: "",
-  libMarketingImage: "",
-  libPartnersImage: "",
-  eyebrow: "DIGITALNI ALATI · JEDNOSTAVNI SISTEMI",
-  ...
-};
-const initial = {
-  const initial = {
-  brand: "Marijana Digital Soul",
-  ...
-};
-
-// <--- OVDE PISEŠ KORAK 2 (OBJAŠNJENJA) --->
-const explanations = {
-  women: {
-    title: "Ženski programi",
-    subtitle: "Lični razvoj, ravnoteža i svakodnevni ritam",
-    text: "Ovde se nalazi detaljno objašnjenje za ženske programe..."
-  },
-  teen: {
-    title: "Tinejdžerski i dečji programi",
-    subtitle: "Učenje, kreativnost i razvoj mladih",
-    text: "Ovaj deo objašnjava programe..."
-  },
-  templates: {
-    title: "Gotovi šabloni",
-    subtitle: "Praktični planeri i radni listovi",
-    text: "Ovde je objašnjenje za gotove šablone..."
-  },
-  products: {
-    title: "Digitalni proizvodi",
-    subtitle: "E-knjige, vodiči i paketi",
-    text: "Detaljan opis i objašnjenje digitalnih proizvoda..."
-  },
-  marketing: {
-    title: "Marketing programi",
-    subtitle: "Sistemi, alati i strategije prodaje",
-    text: "Objašnjenje marketing sistema..."
-  },
-  partners: {
-    title: "Partnerski programi",
-    subtitle: "Resursi i mogućnosti saradnje",
-    text: "Ovde se nalaze informacije o partnerskoj saradnji..."
-  }
-};
-
-export default function App() {
-  const [content, setContent] = useState(initial);
-  // Ovdje nastavlja ostatak tvog koda..
-  .const [activeExplanation, setActiveExplanation] = useState(null);
-  brand: "Marijana Digital Soul",
-  topTitle: "Biblioteka rešenja",
-  topSubtitle: "Digitalni proizvodi, alati i praktična rešenja za lakši, organizovaniji i ispunjeniji život.",
-  topQuote: "",
-  marketingMockup:<section className="mockup-cards">
-            {/* Marketing AI Sistem Kartica */}
-            <article className="mockup-card marketing-card">
-              <div className="mockup-image-area">
-                {content.marketingMockup ? (
-                  <div className="mockup-preview-wrapper">
-                    <img 
-                      src={content.marketingMockup} 
-                      alt="Marketing AI Sistem mockup" 
-                      className="mockup-fitted-image"
-                    />
-                    <div className="mockup-overlay-actions">
-                      <button type="button" className="mockup-action-btn" onClick={() => marketingUploadRef.current?.click()} title="Zameni sliku">
-                        Zameni
-                      </button>
-                      <button type="button" className="mockup-action-btn danger" onClick={() => removeMockup("marketingMockup")} title="Ukloni sliku">
-                        Ukloni
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <button type="button" className="mockup-upload-placeholder" onClick={() => marketingUploadRef.current?.click()}>
-                    <ImagePlus size={28}/>
-                    <strong>Dodaj mockup</strong>
-                    <span>Marketing AI Sistem</span>
-                  </button>
-                )}
-              </div>
-              <input ref={marketingUploadRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e, "marketingMockup")}/>
-              <div className="mockup-copy">
-                <span className="mockup-kicker">MARKETING · AI · PRODAJA</span>
-                <h2>Marketing AI Sistem</h2>
-                <h3>Pametniji marketing, povezani alati. Organizovana prodaja.</h3>
-                <p>Kratko objašnjenje dodajemo kada budeš spremna.</p>
-              </div>
-            </article>
-const [activeExplanation, setActiveExplanation] = useState(null);
-            {/* Digital Soul Drive Kartica */}
-            <article className="mockup-card drive-card">
-              <div className="mockup-image-area">
-                {content.driveMockup ? (
-                  <div className="mockup-preview-wrapper">
-                    <img 
-                      src={content.driveMockup} 
-                      alt="Digital Soul Drive mockup" 
-                      className="mockup-fitted-image"
-                    />
-                    <div className="mockup-overlay-actions">
-                      <button type="button" className="mockup-action-btn" onClick={() => driveUploadRef.current?.click()} title="Zameni sliku">
-                        Zameni
-                      </button>
-                      <button type="button" className="mockup-action-btn danger" onClick={() => removeMockup("driveMockup")} title="Ukloni sliku">
-                        Ukloni
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <button type="button" className="mockup-upload-placeholder" onClick={() => driveUploadRef.current?.click()}>
-                    <ImagePlus size={28}/>
-                    <strong>Dodaj mockup</strong>
-                    <span>Digital Soul Drive</span>
-                  </button>
-                )}const freeGuideRef = useRef(null);
-  const freeTemplateRef = useRef(null);
-  const freeChecklistRef = useRef(null);
-  const freeAIRef = useRef(null);
-  // DODAJ OVO ZA BIBLIOTEKU KARTICE:
-  const libWomenRef = useRef(null);
-  const libTeenRef = useRef(null);
-  const libTemplatesRef = useRef(null);
-  const libProductsRef = useRef(null);
-  const libMarketingRef = useRef(null);
-  const libPartnersRef = useRef(null);
-              </div>
-              <input ref={driveUploadRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e, "driveMockup")}/>
-              <div className="mockup-copy">
-                <span className="mockup-kicker">DIGITALNI SISTEM</span>
-                <h2>Digital Soul Drive</h2>
-                <h3>Upoznajte Digital Soul Drive</h3>
-                <p>Opis ćemo dodati kada ga zajedno razradimo.</p>
-              </div>
-            </article>
-          </section> "",
   driveMockup: "",
   freeGuideImage: "",
   freeTemplateImage: "",
@@ -290,30 +144,6 @@ export default function App() {
   );
 
   return <div className="app-shell">
-    {activeExplanation ? (
-  <div className="explanation-page-view">
-    <button 
-      type="button" 
-      className="back-to-home-btn" 
-      onClick={() => { setActiveExplanation(null); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-    >
-      ← Nazad na početak
-    </button>
-    <div className="explanation-content-card">
-      <span className="library-kicker">DETALJNO OBJAŠNJENJE</span>
-      <h1>{explanations[activeExplanation].title}</h1>
-      <h3>{explanations[activeExplanation].subtitle}</h3>
-      <p>{explanations[activeExplanation].text}</p>
-      <div className="explanation-actions">
-        <button type="button" className="button button-primary" onClick={() => alert("Ovde možeš dodati preuzimanje ili dalji korak!")}>
-          Saznaj više / Preuzmi
-        </button>
-      </div>
-    </div>
-  </div>
-) : (
-  // ... OVDE IDE TVOJ POSTOJEĆI SADRŽAJ SAJT (HERO, BIBLIOTEKA, KARTICE ITD.) ...
-)}
     <header className="topbar">
       <div className="brand-lockup"><div className="brand-mark">DS</div><div><div className="brand-title">Digital Soul</div><div className="brand-subtitle">VIZUELNI EDITOR · PROTOTIP</div></div></div>
       <div className="top-actions"><span className={`save-state ${dirty ? "dirty" : ""}`}><span className="state-dot"/>{dirty ? "Nesačuvane izmene" : status}</span><button className="button button-quiet" onClick={discard}><Undo2 size={16}/> Vrati</button><button className="button button-primary" onClick={saveDraft}><Save size={16}/> Sačuvaj nacrt</button></div>
@@ -389,139 +219,12 @@ export default function App() {
               </div>
             </div>
             <div className="library-grid">
-             <div className="library-grid">
-              {/* Kartica 1: Ženski programi */}
-              <article className="library-card library-women">
-                <div className="library-card-art">
-                  {content.libWomenImage ? (
-                    <div className="mockup-preview-wrapper">
-                      <img src={content.libWomenImage} alt="Ženski programi" className="mockup-fitted-image"/>
-                      <div className="mockup-overlay-actions">
-                        <button type="button" className="mockup-action-btn" onClick={() => libWomenRef.current?.click()}>Zameni</button>
-                        <button type="button" className="mockup-action-btn danger" onClick={() => update("libWomenImage", "")}>Ukloni</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <button type="button" className="library-upload-trigger" onClick={() => libWomenRef.current?.click()}>
-                      <span className="library-art-symbol">✿</span>
-                      <span className="library-art-label">Dodaj sliku</span>
-                    </button>
-                  )}
-                  <input ref={libWomenRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e, "libWomenImage")}/>
-                </div>
-                <div className="library-card-copy"><span className="library-number">01</span><h2>Ženski programi</h2><p>Alati, vodiči i sadržaji za svakodnevni život, lični razvoj i više ravnoteže.</p><button type="button">Istraži programe <ArrowUpRight size={15}/></button></div>
-              </article>
-
-              {/* Kartica 2: Tinejdžerski i dečji programi */}
-              <article className="library-card library-teen">
-                <div className="library-card-art">
-                  {content.libTeenImage ? (
-                    <div className="mockup-preview-wrapper">
-                      <img src={content.libTeenImage} alt="Tinejdžerski programi" className="mockup-fitted-image"/>
-                      <div className="mockup-overlay-actions">
-                        <button type="button" className="mockup-action-btn" onClick={() => libTeenRef.current?.click()}>Zameni</button>
-                        <button type="button" className="mockup-action-btn danger" onClick={() => update("libTeenImage", "")}>Ukloni</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <button type="button" className="library-upload-trigger" onClick={() => libTeenRef.current?.click()}>
-                      <span className="library-art-symbol">✧</span>
-                      <span className="library-art-label">Dodaj sliku</span>
-                    </button>
-                  )}
-                  <input ref={libTeenRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e, "libTeenImage")}/>
-                </div>
-                <div className="library-card-copy"><span className="library-number">02</span><h2>Tinejdžerski i dečji programi</h2><p>Materijali i programi prilagođeni mladima i njihovim potrebama.</p><button type="button">Pogledaj sadržaje <ArrowUpRight size={15}/></button></div>
-              </article>
-
-              {/* Kartica 3: Gotovi šabloni */}
-              <article className="library-card library-templates">
-                <div className="library-card-art">
-                  {content.libTemplatesImage ? (
-                    <div className="mockup-preview-wrapper">
-                      <img src={content.libTemplatesImage} alt="Gotovi šabloni" className="mockup-fitted-image"/>
-                      <div className="mockup-overlay-actions">
-                        <button type="button" className="mockup-action-btn" onClick={() => libTemplatesRef.current?.click()}>Zameni</button>
-                        <button type="button" className="mockup-action-btn danger" onClick={() => update("libTemplatesImage", "")}>Ukloni</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <button type="button" className="library-upload-trigger" onClick={() => libTemplatesRef.current?.click()}>
-                      <span className="library-art-symbol">▤</span>
-                      <span className="library-art-label">Dodaj sliku</span>
-                    </button>
-                  )}
-                  <input ref={libTemplatesRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e, "libTemplatesImage")}/>
-                </div>
-                <div className="library-card-copy"><span className="library-number">03</span><h2>Gotovi šabloni</h2><p>Praktični šabloni, planeri i radni listovi koje možeš odmah preuzeti i koristiti.</p><button type="button">Pogledaj šablone <ArrowUpRight size={15}/></button></div>
-              </article>
-
-              {/* Kartica 4: Digitalni proizvodi */}
-              <article className="library-card library-products">
-                <div className="library-card-art">
-                  {content.libProductsImage ? (
-                    <div className="mockup-preview-wrapper">
-                      <img src={content.libProductsImage} alt="Digitalni proizvodi" className="mockup-fitted-image"/>
-                      <div className="mockup-overlay-actions">
-                        <button type="button" className="mockup-action-btn" onClick={() => libProductsRef.current?.click()}>Zameni</button>
-                        <button type="button" className="mockup-action-btn danger" onClick={() => update("libProductsImage", "")}>Ukloni</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <button type="button" className="library-upload-trigger" onClick={() => libProductsRef.current?.click()}>
-                      <span className="library-art-symbol">✧</span>
-                      <span className="library-art-label">Dodaj sliku</span>
-                    </button>
-                  )}
-                  <input ref={libProductsRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e, "libProductsImage")}/>
-                </div>
-                <div className="library-card-copy"><span className="library-number">04</span><h2>Digitalni proizvodi</h2><p>E-knjige, vodiči, paketi i druga digitalna rešenja za lični i poslovni razvoj.</p><button type="button">Otkrij proizvode <ArrowUpRight size={15}/></button></div>
-              </article>
-
-              {/* Kartica 5: Marketing programi */}
-              <article className="library-card library-marketing">
-                <div className="library-card-art">
-                  {content.libMarketingImage ? (
-                    <div className="mockup-preview-wrapper">
-                      <img src={content.libMarketingImage} alt="Marketing programi" className="mockup-fitted-image"/>
-                      <div className="mockup-overlay-actions">
-                        <button type="button" className="mockup-action-btn" onClick={() => libMarketingRef.current?.click()}>Zameni</button>
-                        <button type="button" className="mockup-action-btn danger" onClick={() => update("libMarketingImage", "")}>Ukloni</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <button type="button" className="library-upload-trigger" onClick={() => libMarketingRef.current?.click()}>
-                      <span className="library-art-symbol">↗</span>
-                      <span className="library-art-label">Dodaj sliku</span>
-                    </button>
-                  )}
-                  <input ref={libMarketingRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e, "libMarketingImage")}/>
-                </div>
-                <div className="library-card-copy"><span className="library-number">05</span><h2>Marketing programi</h2><p>Praktični sistemi, alati i strategije za organizovan marketing i prodaju digitalnih proizvoda.</p><button type="button">Pogledaj programe <ArrowUpRight size={15}/></button></div>
-              </article>
-
-              {/* Kartica 6: Partnerski programi */}
-              <article className="library-card library-partners">
-                <div className="library-card-art">
-                  {content.libPartnersImage ? (
-                    <div className="mockup-preview-wrapper">
-                      <img src={content.libPartnersImage} alt="Partnerski programi" className="mockup-fitted-image"/>
-                      <div className="mockup-overlay-actions">
-                        <button type="button" className="mockup-action-btn" onClick={() => libPartnersRef.current?.click()}>Zameni</button>
-                        <button type="button" className="mockup-action-btn danger" onClick={() => update("libPartnersImage", "")}>Ukloni</button>
-                      </div>
-                    </div>
-                  ) : (
-                    <button type="button" className="library-upload-trigger" onClick={() => libPartnersRef.current?.click()}>
-                      <span className="library-art-symbol">∞</span>
-                      <span className="library-art-label">Dodaj sliku</span>
-                    </button>
-                  )}
-                  <input ref={libPartnersRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e, "libPartnersImage")}/>
-                </div>
-                <div className="library-card-copy"><span className="library-number">06</span><h2>Partnerski programi</h2><p>Resursi i mogućnosti za partnersku saradnju.</p><button type="button">Saznaj više <ArrowUpRight size={15}/></button></div>
-              </article>
-            </div>-card-copy"><span className="library-number">06</span><h2>Partnerski programi</h2><p>Resursi i mogućnosti za partnersku saradnju.</p><button type="button">Saznaj više <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-women"><div className="library-card-art"><span className="library-art-symbol">✿</span><span className="library-art-label">lični razvoj · ravnoteža</span></div><div className="library-card-copy"><span className="library-number">01</span><h2>Ženski programi</h2><p>Alati, vodiči i sadržaji za svakodnevni život, lični razvoj i više ravnoteže.</p><button type="button">Istraži programe <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-teen"><div className="library-card-art"><span className="library-art-symbol">✧</span><span className="library-art-label">učenje · kreativnost</span></div><div className="library-card-copy"><span className="library-number">02</span><h2>Tinejdžerski i dečji programi</h2><p>Materijali i programi prilagođeni mladima i njihovim potrebama.</p><button type="button">Pogledaj sadržaje <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-templates"><div className="library-card-art"><span className="library-art-symbol">▤</span><span className="library-art-label">planeri · radni listovi</span></div><div className="library-card-copy"><span className="library-number">03</span><h2>Gotovi šabloni</h2><p>Praktični šabloni, planeri i radni listovi koje možeš odmah preuzeti i koristiti.</p><button type="button">Pogledaj šablone <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-products"><div className="library-card-art"><span className="library-art-symbol">✧</span><span className="library-art-label">e-knjige · vodiči · paketi</span></div><div className="library-card-copy"><span className="library-number">04</span><h2>Digitalni proizvodi</h2><p>E-knjige, vodiči, paketi i druga digitalna rešenja za lični i poslovni razvoj.</p><button type="button">Otkrij proizvode <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-marketing"><div className="library-card-art"><span className="library-art-symbol">↗</span><span className="library-art-label">marketing · sistemi · alati</span></div><div className="library-card-copy"><span className="library-number">05</span><h2>Marketing programi</h2><p>Praktični sistemi, alati i strategije za organizovan marketing i prodaju digitalnih proizvoda.</p><button type="button">Pogledaj programe <ArrowUpRight size={15}/></button></div></article>
+              <article className="library-card library-partners"><div className="library-card-art"><span className="library-art-symbol">∞</span><span className="library-art-label">saradnja · mogućnosti</span></div><div className="library-card-copy"><span className="library-number">06</span><h2>Partnerski programi</h2><p>Resursi i mogućnosti za partnersku saradnju.</p><button type="button">Saznaj više <ArrowUpRight size={15}/></button></div></article>
             </div>
           </section>
 
@@ -631,8 +334,3 @@ export default function App() {
     </div>
   </div>;
 }
-// Funkcija za brisanje mockup-a
-  const removeMockup = (key) => {
-    update(key, "");
-    setError("");
-  };
