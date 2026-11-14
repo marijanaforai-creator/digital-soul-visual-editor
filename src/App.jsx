@@ -63,7 +63,7 @@ const initial = {
                 <p>Kratko objašnjenje dodajemo kada budeš spremna.</p>
               </div>
             </article>
-
+const [activeExplanation, setActiveExplanation] = useState(null);
             {/* Digital Soul Drive Kartica */}
             <article className="mockup-card drive-card">
               <div className="mockup-image-area">
