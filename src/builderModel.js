@@ -18,13 +18,13 @@ export const BLOCK_PROPERTY_FIELDS = {
   image: ["image"],
   imageText: ["title", "body", "image"],
   columns: ["title", "body", "columns"],
-  products: ["title", "body", "image"],
-  categories: ["title", "body", "image"],
+  products: ["title", "body", "image", "cards"],
+  categories: ["title", "body", "image", "cards"],
   gallery: ["title", "image"],
   cta: ["title", "body", "button"],
   buttons: ["title", "body", "button"],
-  blog: ["title", "body", "image"],
-  resources: ["title", "body", "image"],
+  blog: ["title", "body", "image", "cards"],
+  resources: ["title", "body", "image", "cards"],
   contact: ["title", "body"],
   faq: ["title", "subtitle", "body"],
   custom: ["title", "subtitle", "body", "button", "image"]
@@ -36,7 +36,7 @@ export function makeBlock(type = "text") {
   const label = BLOCK_TYPES.find(([key]) => key === type)?.[1] || "Prilagođeni blok";
   return {
     id: uid(), type,
-    content: { title: label, subtitle: "Dodaj kratak podnaslov", body: "Klikni da uneseš tekst koji želiš da prikažeš na stranici.", buttonText: "Saznaj više", buttonLink: "", imageId: "", alt: "", aspectRatio: "16 / 9", columns: 2 },
+    content: { title: label, subtitle: "Dodaj kratak podnaslov", body: "Klikni da uneseš tekst koji želiš da prikažeš na stranici.", buttonText: "Saznaj više", buttonLink: "", imageId: "", alt: "", aspectRatio: "16 / 9", columns: 2, cards: [1, 2, 3].map(index => ({ title: `Kategorija ${index}`, body: "", imageId: "", alt: "", buttonText: "Saznaj više", buttonLink: "" })) },
     style: { background: "#f7f3eb", color: "#30243b", width: "wide", align: "left", spacing: 32, padding: 28, radius: 16, fontSize: 16, hiddenDesktop: false, hiddenTablet: false, hiddenMobile: false }
   };
 }
@@ -111,6 +111,20 @@ export function validateProject(value, { allowLocalMedia = false } = {}) {
       const content = { ...defaults.content };
       Object.keys(content).forEach(key => { if (typeof block.content[key] === "string") content[key] = block.content[key].slice(0, key === "body" ? 12000 : 2000); });
       if ([2, 3].includes(block.content.columns)) content.columns = block.content.columns;
+      if (["categories", "products", "blog", "resources"].includes(block.type)) {
+        const sourceCards = Array.isArray(block.content.cards) ? block.content.cards : [];
+        content.cards = sourceCards.slice(0, 12).map((card, index) => ({
+          title: typeof card?.title === "string" ? card.title.slice(0, 200) : \`Kartica \${index + 1}\`,
+          body: typeof card?.body === "string" ? card.body.slice(0, 2000) : "",
+          imageId: typeof card?.imageId === "string" ? card.imageId : "",
+          alt: typeof card?.alt === "string" ? card.alt.slice(0, 300) : "",
+          buttonText: typeof card?.buttonText === "string" ? card.buttonText.slice(0, 100) : "Saznaj više",
+          buttonLink: typeof card?.buttonLink === "string" ? card.buttonLink.slice(0, 2000) : ""
+        }));
+        if (!content.cards.length) content.cards = [1, 2, 3].map(index => ({
+          title: \`Kartica \${index}\`, body: "", imageId: "", alt: "", buttonText: "Saznaj više", buttonLink: ""
+        }));
+      }
       const style = { ...defaults.style, ...block.style };
       style.background = /^#[\da-f]{6}$/i.test(style.background) ? style.background : defaults.style.background;
       style.color = /^#[\da-f]{6}$/i.test(style.color) ? style.color : defaults.style.color;
