@@ -1,7 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
 import collaborationPhoto from "../marijana-about-portrait-crop.jpg";
 import { ArrowUpRight, Check, Eye, ImagePlus, LayoutTemplate, Monitor, Pencil, Save, Smartphone, Tablet, Type, Undo2, Upload, X } from "lucide-react";
-
+const initial = {
+  brand: "Marijana Digital Soul",
+  topTitle: "Biblioteka rešenja",
+  topSubtitle: "Digitalni proizvodi, alati i praktična rešenja za lakši, organizovaniji i ispunjeniji život.",
+  topQuote: "",
+  marketingMockup: "",
+  driveMockup: "",
+  freeGuideImage: "",
+  freeTemplateImage: "",
+  freeChecklistImage: "",
+  freeAIImage: "",
+  // DODAJ OVO:
+  libWomenImage: "",
+  libTeenImage: "",
+  libTemplatesImage: "",
+  libProductsImage: "",
+  libMarketingImage: "",
+  libPartnersImage: "",
+  eyebrow: "DIGITALNI ALATI · JEDNOSTAVNI SISTEMI",
+  ...
+};
 const initial = {
   brand: "Marijana Digital Soul",
   topTitle: "Biblioteka rešenja",
