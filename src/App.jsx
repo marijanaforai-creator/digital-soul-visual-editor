@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import collaborationPhoto from "../marijana-about-portrait-crop.jpg";
 import { ArrowUpRight, Check, Eye, ImagePlus, LayoutTemplate, Monitor, Pencil, Save, Smartphone, Tablet, Type, Undo2, Upload, X } from "lucide-react";
 const initial = {
+  
   brand: "Marijana Digital Soul",
   topTitle: "Biblioteka rešenja",
   topSubtitle: "Digitalni proizvodi, alati i praktična rešenja za lakši, organizovaniji i ispunjeniji život.",
@@ -64,7 +65,8 @@ const explanations = {
 
 export default function App() {
   const [content, setContent] = useState(initial);
-  // Ovdje nastavlja ostatak tvog koda...
+  // Ovdje nastavlja ostatak tvog koda..
+  .const [activeExplanation, setActiveExplanation] = useState(null);
   brand: "Marijana Digital Soul",
   topTitle: "Biblioteka rešenja",
   topSubtitle: "Digitalni proizvodi, alati i praktična rešenja za lakši, organizovaniji i ispunjeniji život.",
