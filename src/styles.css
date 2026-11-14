@@ -227,3 +227,25 @@
 .mockup-action-btn.danger:hover {
   background: #fecaca;
 }
+.library-upload-trigger {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.library-upload-trigger:hover {
+  opacity: 0.8;
+}
+
+.library-card-art {
+  position: relative;
+  overflow: hidden;
+}
