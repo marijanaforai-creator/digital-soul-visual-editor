@@ -160,3 +160,70 @@
 .collab-visual-caption>strong{font:500 clamp(17px,2vw,24px)/1.25 "Playfair Display",Georgia,serif;color:#30243b}
 .collab-form-card{grid-column:1/-1;grid-row:2;justify-self:center;max-width:760px;margin-top:10px}
 @media(max-width:760px){.collab-section{grid-template-columns:minmax(0,1fr);gap:24px;padding:42px 16px}.collab-intro{grid-column:1;grid-row:1}.collab-visual{grid-column:1;grid-row:2;min-height:0;max-height:none;aspect-ratio:4/4.2}.collab-visual>img{min-height:0;max-height:none;aspect-ratio:4/4.2}.collab-visual-caption{left:10px;right:10px;bottom:10px;padding:14px 15px}.collab-form-card{grid-column:1;grid-row:3;margin-top:0;max-width:none}}
+/* Prilagođavanje i prikaz mockup slika */
+.mockup-preview-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.mockup-fitted-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Prilagođava sliku da popuni prostor bez deformisanja */
+  transition: transform 0.3s ease;
+}
+
+.mockup-preview-wrapper:hover .mockup-fitted-image {
+  transform: scale(1.02);
+}
+
+/* Lebdeća dugmad za zamenu i brisanje preko slike */
+.mockup-overlay-actions {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 6px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+}
+
+.mockup-preview-wrapper:hover .mockup-overlay-actions {
+  opacity: 1;
+}
+
+.mockup-action-btn {
+  background: #ffffff;
+  color: #1a1a1a;
+  border: none;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mockup-action-btn:hover {
+  background: #e2e8f0;
+}
+
+.mockup-action-btn.danger {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.mockup-action-btn.danger:hover {
+  background: #fecaca;
+}
