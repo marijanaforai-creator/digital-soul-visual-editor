@@ -114,7 +114,7 @@ export function validateProject(value, { allowLocalMedia = false } = {}) {
       if (["categories", "products", "blog", "resources"].includes(block.type)) {
         const sourceCards = Array.isArray(block.content.cards) ? block.content.cards : [];
         content.cards = sourceCards.slice(0, 12).map((card, index) => ({
-          title: typeof card?.title === "string" ? card.title.slice(0, 200) : \`Kartica \${index + 1}\`,
+          title: typeof card?.title === "string" ? card.title.slice(0, 200) : `Kartica \${index + 1}`,
           body: typeof card?.body === "string" ? card.body.slice(0, 2000) : "",
           imageId: typeof card?.imageId === "string" ? card.imageId : "",
           alt: typeof card?.alt === "string" ? card.alt.slice(0, 300) : "",
@@ -122,7 +122,7 @@ export function validateProject(value, { allowLocalMedia = false } = {}) {
           buttonLink: typeof card?.buttonLink === "string" ? card.buttonLink.slice(0, 2000) : ""
         }));
         if (!content.cards.length) content.cards = [1, 2, 3].map(index => ({
-          title: \`Kartica \${index}\`, body: "", imageId: "", alt: "", buttonText: "Saznaj više", buttonLink: ""
+          title: `Kartica \${index}`, body: "", imageId: "", alt: "", buttonText: "Saznaj više", buttonLink: ""
         }));
       }
       const style = { ...defaults.style, ...block.style };
