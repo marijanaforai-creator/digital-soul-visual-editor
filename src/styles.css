@@ -166,3 +166,7 @@
 /* Page Builder entry inside the existing More menu */
 .nav-dropdown .nav-dropdown-builder{display:flex;align-items:center;gap:8px;width:100%;padding:10px 11px;border:0;border-radius:5px;background:transparent;color:#53684e;text-align:left;font:600 11px "DM Sans",sans-serif;white-space:nowrap;cursor:pointer}
 .nav-dropdown .nav-dropdown-builder:hover{background:#eef1e9;color:#3f563b}
+
+/* Page Builder shortcut in the legacy editor sidebar */
+.sidebar-page-builder{display:flex;align-items:center;gap:10px;width:100%;margin:14px 0 4px;padding:12px;border:1px solid #d8dfd2;border-radius:9px;background:#f3f6f0;color:#465c42;text-align:left;cursor:pointer}
+.sidebar-page-builder>span{display:flex;flex:1;flex-direction:column;gap:3px}.sidebar-page-builder strong{font:600 12px "DM Sans",sans-serif}.sidebar-page-builder small{font:400 10px "DM Sans",sans-serif;color:#73806e}.sidebar-page-builder:hover{background:#e8eee3;border-color:#aebda6}
