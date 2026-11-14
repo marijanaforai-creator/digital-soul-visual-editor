@@ -69,7 +69,17 @@ const initial = {
                     <strong>Dodaj mockup</strong>
                     <span>Digital Soul Drive</span>
                   </button>
-                )}
+                )}const freeGuideRef = useRef(null);
+  const freeTemplateRef = useRef(null);
+  const freeChecklistRef = useRef(null);
+  const freeAIRef = useRef(null);
+  // DODAJ OVO ZA BIBLIOTEKU KARTICE:
+  const libWomenRef = useRef(null);
+  const libTeenRef = useRef(null);
+  const libTemplatesRef = useRef(null);
+  const libProductsRef = useRef(null);
+  const libMarketingRef = useRef(null);
+  const libPartnersRef = useRef(null);
               </div>
               <input ref={driveUploadRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e, "driveMockup")}/>
               <div className="mockup-copy">
