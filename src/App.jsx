@@ -334,3 +334,8 @@ export default function App() {
     </div>
   </div>;
 }
+// Funkcija za brisanje mockup-a
+  const removeMockup = (key) => {
+    update(key, "");
+    setError("");
+  };
