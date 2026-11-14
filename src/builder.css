@@ -2,3 +2,13 @@
 @media(max-width:1100px){.builder-grid{grid-template-columns:240px minmax(350px,1fr)}.builder-inspector{grid-column:1/-1;max-height:310px;border-top:1px solid #e9e2d8;border-left:0}.builder-properties{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:12px}.builder-inspector-bottom{margin-top:8px}}
 @media(max-width:720px){.builder-shell{height:auto;min-height:100vh;overflow:visible}.builder-topbar{position:sticky;top:0;z-index:10;min-height:68px;padding:10px}.builder-topbar .top-actions{flex-wrap:wrap;justify-content:flex-end}.builder-topbar .save-state{display:none}.builder-topbar .button{padding:8px;font-size:9px}.builder-grid{height:auto;min-height:0;display:flex;flex-direction:column}.builder-sidebar{max-height:52vh;border-right:0;border-bottom:1px solid #e9e2d8}.builder-page-list{max-height:145px}.builder-main{padding:14px 10px}.builder-toolbar{flex-wrap:wrap}.builder-toolbar h1{font-size:20px}.builder-toolbar>div:first-child{width:100%}.builder-canvas{min-height:500px}.builder-canvas-mobile{max-width:100%}.builder-site-nav{padding:10px;flex-wrap:wrap}.builder-site-nav div{display:none}.builder-page-canvas{padding:12px 9px 35px}.builder-block{padding:20px!important}.builder-image-text{grid-template-columns:1fr}.builder-columns,.builder-card-grid{grid-template-columns:1fr}.builder-inspector{max-height:none}.builder-properties{display:block}.builder-inspector-bottom{margin-top:16px}}
 .builder-toolbar-hint{display:block;margin-top:4px;color:#8c8479;font-size:10px;line-height:1.4}
+
+.builder-card-editor{margin:18px 0;padding:12px;border:1px solid #e7dfd4;border-radius:10px;background:#faf8f3}
+.builder-card-editor-heading{display:flex;flex-direction:column;gap:4px;margin-bottom:10px;color:#514a43;font-size:11px}
+.builder-card-editor-heading span{color:#8a8176;font-size:9px;font-weight:400;line-height:1.5}
+.builder-card-editor-item{margin:10px 0;padding:10px;border:1px solid #e8e0d5;border-radius:8px;background:#fffefa}
+.builder-card-editor-title{display:flex;align-items:center;justify-content:space-between;color:#5c6654;font-size:10px}
+.builder-card-remove{border:0;background:transparent;color:#a45c50;font-size:9px;cursor:pointer}
+.builder-card-remove:disabled{opacity:.35;cursor:not-allowed}
+.builder-add-card{width:100%;padding:9px;border:1px dashed #9aa88f;border-radius:7px;background:#f1f4ed;color:#52644d;font:600 10px "DM Sans",sans-serif;cursor:pointer}
+.builder-card-grid article .builder-cta{margin-top:10px}
