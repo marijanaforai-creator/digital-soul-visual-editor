@@ -23,6 +23,48 @@ const initial = {
   ...
 };
 const initial = {
+  const initial = {
+  brand: "Marijana Digital Soul",
+  ...
+};
+
+// <--- OVDE PISEŠ KORAK 2 (OBJAŠNJENJA) --->
+const explanations = {
+  women: {
+    title: "Ženski programi",
+    subtitle: "Lični razvoj, ravnoteža i svakodnevni ritam",
+    text: "Ovde se nalazi detaljno objašnjenje za ženske programe..."
+  },
+  teen: {
+    title: "Tinejdžerski i dečji programi",
+    subtitle: "Učenje, kreativnost i razvoj mladih",
+    text: "Ovaj deo objašnjava programe..."
+  },
+  templates: {
+    title: "Gotovi šabloni",
+    subtitle: "Praktični planeri i radni listovi",
+    text: "Ovde je objašnjenje za gotove šablone..."
+  },
+  products: {
+    title: "Digitalni proizvodi",
+    subtitle: "E-knjige, vodiči i paketi",
+    text: "Detaljan opis i objašnjenje digitalnih proizvoda..."
+  },
+  marketing: {
+    title: "Marketing programi",
+    subtitle: "Sistemi, alati i strategije prodaje",
+    text: "Objašnjenje marketing sistema..."
+  },
+  partners: {
+    title: "Partnerski programi",
+    subtitle: "Resursi i mogućnosti saradnje",
+    text: "Ovde se nalaze informacije o partnerskoj saradnji..."
+  }
+};
+
+export default function App() {
+  const [content, setContent] = useState(initial);
+  // Ovdje nastavlja ostatak tvog koda...
   brand: "Marijana Digital Soul",
   topTitle: "Biblioteka rešenja",
   topSubtitle: "Digitalni proizvodi, alati i praktična rešenja za lakši, organizovaniji i ispunjeniji život.",
