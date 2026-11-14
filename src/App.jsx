@@ -288,6 +288,30 @@ export default function App() {
   );
 
   return <div className="app-shell">
+    {activeExplanation ? (
+  <div className="explanation-page-view">
+    <button 
+      type="button" 
+      className="back-to-home-btn" 
+      onClick={() => { setActiveExplanation(null); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+    >
+      ← Nazad na početak
+    </button>
+    <div className="explanation-content-card">
+      <span className="library-kicker">DETALJNO OBJAŠNJENJE</span>
+      <h1>{explanations[activeExplanation].title}</h1>
+      <h3>{explanations[activeExplanation].subtitle}</h3>
+      <p>{explanations[activeExplanation].text}</p>
+      <div className="explanation-actions">
+        <button type="button" className="button button-primary" onClick={() => alert("Ovde možeš dodati preuzimanje ili dalji korak!")}>
+          Saznaj više / Preuzmi
+        </button>
+      </div>
+    </div>
+  </div>
+) : (
+  // ... OVDE IDE TVOJ POSTOJEĆI SADRŽAJ SAJT (HERO, BIBLIOTEKA, KARTICE ITD.) ...
+)}
     <header className="topbar">
       <div className="brand-lockup"><div className="brand-mark">DS</div><div><div className="brand-title">Digital Soul</div><div className="brand-subtitle">VIZUELNI EDITOR · PROTOTIP</div></div></div>
       <div className="top-actions"><span className={`save-state ${dirty ? "dirty" : ""}`}><span className="state-dot"/>{dirty ? "Nesačuvane izmene" : status}</span><button className="button button-quiet" onClick={discard}><Undo2 size={16}/> Vrati</button><button className="button button-primary" onClick={saveDraft}><Save size={16}/> Sačuvaj nacrt</button></div>
