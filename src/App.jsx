@@ -7,7 +7,79 @@ const initial = {
   topTitle: "Biblioteka rešenja",
   topSubtitle: "Digitalni proizvodi, alati i praktična rešenja za lakši, organizovaniji i ispunjeniji život.",
   topQuote: "",
-  marketingMockup: "",
+  marketingMockup:<section className="mockup-cards">
+            {/* Marketing AI Sistem Kartica */}
+            <article className="mockup-card marketing-card">
+              <div className="mockup-image-area">
+                {content.marketingMockup ? (
+                  <div className="mockup-preview-wrapper">
+                    <img 
+                      src={content.marketingMockup} 
+                      alt="Marketing AI Sistem mockup" 
+                      className="mockup-fitted-image"
+                    />
+                    <div className="mockup-overlay-actions">
+                      <button type="button" className="mockup-action-btn" onClick={() => marketingUploadRef.current?.click()} title="Zameni sliku">
+                        Zameni
+                      </button>
+                      <button type="button" className="mockup-action-btn danger" onClick={() => removeMockup("marketingMockup")} title="Ukloni sliku">
+                        Ukloni
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <button type="button" className="mockup-upload-placeholder" onClick={() => marketingUploadRef.current?.click()}>
+                    <ImagePlus size={28}/>
+                    <strong>Dodaj mockup</strong>
+                    <span>Marketing AI Sistem</span>
+                  </button>
+                )}
+              </div>
+              <input ref={marketingUploadRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e, "marketingMockup")}/>
+              <div className="mockup-copy">
+                <span className="mockup-kicker">MARKETING · AI · PRODAJA</span>
+                <h2>Marketing AI Sistem</h2>
+                <h3>Pametniji marketing, povezani alati. Organizovana prodaja.</h3>
+                <p>Kratko objašnjenje dodajemo kada budeš spremna.</p>
+              </div>
+            </article>
+
+            {/* Digital Soul Drive Kartica */}
+            <article className="mockup-card drive-card">
+              <div className="mockup-image-area">
+                {content.driveMockup ? (
+                  <div className="mockup-preview-wrapper">
+                    <img 
+                      src={content.driveMockup} 
+                      alt="Digital Soul Drive mockup" 
+                      className="mockup-fitted-image"
+                    />
+                    <div className="mockup-overlay-actions">
+                      <button type="button" className="mockup-action-btn" onClick={() => driveUploadRef.current?.click()} title="Zameni sliku">
+                        Zameni
+                      </button>
+                      <button type="button" className="mockup-action-btn danger" onClick={() => removeMockup("driveMockup")} title="Ukloni sliku">
+                        Ukloni
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <button type="button" className="mockup-upload-placeholder" onClick={() => driveUploadRef.current?.click()}>
+                    <ImagePlus size={28}/>
+                    <strong>Dodaj mockup</strong>
+                    <span>Digital Soul Drive</span>
+                  </button>
+                )}
+              </div>
+              <input ref={driveUploadRef} type="file" accept="image/*" hidden onChange={e => chooseMockup(e, "driveMockup")}/>
+              <div className="mockup-copy">
+                <span className="mockup-kicker">DIGITALNI SISTEM</span>
+                <h2>Digital Soul Drive</h2>
+                <h3>Upoznajte Digital Soul Drive</h3>
+                <p>Opis ćemo dodati kada ga zajedno razradimo.</p>
+              </div>
+            </article>
+          </section> "",
   driveMockup: "",
   freeGuideImage: "",
   freeTemplateImage: "",
